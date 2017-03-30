@@ -13,7 +13,7 @@ export default class App extends Component {
     render() {
         return (
             <FullBackground>
-                <GamePadOverview />
+                <GamePadOverview store={this.props.store} />
                 <GameOverview store={this.props.store} />
             </FullBackground>
         );

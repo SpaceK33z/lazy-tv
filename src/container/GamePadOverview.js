@@ -5,12 +5,18 @@ import GamePadItem from '../component/GamePadItem';
 
 @observer
 export default class GamePadOverview extends Component {
-    // TODO: Don't fake this data, use the gamepad API
+    static propTypes = {
+        store: PropTypes.object.isRequired,
+    };
+
+    renderItem = (gamepad) => {
+        return <GamePadItem key={gamepad.index} />;
+    };
+
     render() {
         return (
             <GamePadList>
-                <GamePadItem />
-                <GamePadItem />
+                {this.props.store.gamepads.map(this.renderItem)}
             </GamePadList>
         );
     }
