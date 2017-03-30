@@ -2,6 +2,7 @@
   "name": "tms",
   "version": "0.1.0",
   "private": true,
+  "homepage": "./",
   "devDependencies": {
     "eslint": "^3.18.0",
     "eslint-config-codeyellow": "^4.0.0",
