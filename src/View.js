@@ -1,5 +1,4 @@
 import { observable, computed } from 'mobx';
-import { each } from 'lodash';
 import Gamepad from './gamepad';
 
 const GAMES = [
@@ -57,7 +56,10 @@ export default class ViewStore {
         });
 
         this.gamepadInstance.on('disconnect', (e) => {
-            this.gamepads.remove(e);
+            const gamepad = this.gamepads.find((gp) => gp.index === e.index);
+            if (gamepad) {
+                this.gamepads.remove(gamepad);
+            }
         });
     }
 
