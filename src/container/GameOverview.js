@@ -8,7 +8,7 @@ import keydown, { Keys } from 'react-keydown';
 import HorizontalCenter from '../component/HorizontalCenter';
 
 const GAME_ITEM_WIDTH = 410;
-const SCROLL_ANIMATION_MS = 500;
+const SCROLL_ANIMATION_MS = 300;
 
 @observer
 export default class GameOverview extends Component {
@@ -39,7 +39,7 @@ export default class GameOverview extends Component {
     scrollToGame = () => {
         const index = this.props.store.selectedGameIndex
         const scrollX = (index * GAME_ITEM_WIDTH);
-        scrollToWithAnimation(this.listRef, 'scrollLeft', scrollX, SCROLL_ANIMATION_MS, 'easeInOutCirc');
+        scrollToWithAnimation(this.listRef, 'scrollLeft', scrollX, SCROLL_ANIMATION_MS, 'easeInOutSine');
     };
 
     handleGameClick = (game) => {
