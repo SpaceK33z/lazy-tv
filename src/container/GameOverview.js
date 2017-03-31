@@ -46,8 +46,12 @@ export default class GameOverview extends Component {
 
     handleGameClick = game => {
         const { store } = this.props;
+        const wasAlreadySelected = game === store.selectedGame;
         store.selectedGame = game;
         this.scrollToGame();
+        if (wasAlreadySelected) {
+            this.startGame();
+        }
     };
 
     setListRef = ref => {
@@ -68,13 +72,15 @@ export default class GameOverview extends Component {
         this.startGame();
     }
 
-    startGame = debounce(
-        () => {
-            console.log('START game');
-        },
-        START_GAME_DEBOUNCE_MS,
-        { leading: true, trailing: false }
-    );
+    startGame = debounce(this._startGame, START_GAME_DEBOUNCE_MS, {
+        leading: true,
+        trailing: false,
+    });
+
+    _startGame() {
+        console.log('START game');
+        this.props.store.openGame();
+    }
 
     componentDidMount() {
         const { gamepadInstance } = this.props.store;

@@ -14,7 +14,7 @@ const StyledItem = styled.button`
     outline: 0;
     cursor: pointer;
     ${props => props.selected && `
-        box-shadow: 0px 0px 9px 5px rgba(36,242,242,1);
+        box-shadow: 0px 0px 9px 5px rgba(36, 242, 242, 1);
     `}
 `;
 

@@ -1,6 +1,7 @@
 import { observable, computed } from 'mobx';
 import Gamepad from './patch/gamepad';
 import Config from './Config';
+import opn from './patch/opn';
 
 const DEFAULT_CONFIG = {
     games: [],
@@ -42,5 +43,15 @@ export default class ViewStore {
         if (newIndex < this.games.length && newIndex >= 0) {
             this.selectedGame = this.games[newIndex];
         }
+    }
+
+    openGame() {
+        const { program } = this.selectedGame;
+
+        if (!program) {
+            // TODO: Maybe show an error notification here one day.
+            return;
+        }
+        opn('', { app: [program] });
     }
 }
