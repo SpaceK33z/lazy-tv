@@ -1,12 +1,16 @@
 {
-  "name": "tms",
+  "name": "big-picture",
   "version": "0.1.0",
   "private": true,
   "homepage": "./",
+  "main": "src/electron-starter.js",
   "devDependencies": {
+    "concurrently": "^3.4.0",
+    "electron": "^1.6.2",
     "eslint": "^3.18.0",
     "eslint-config-codeyellow": "^4.0.0",
-    "react-cy-scripts": "0.10.1"
+    "react-cy-scripts": "0.10.1",
+    "wait-on": "^2.0.2"
   },
   "dependencies": {
     "axios": "^0.15.3",
@@ -23,9 +27,12 @@
     "styled-components": "^1.4.4"
   },
   "scripts": {
-    "start": "CHOKIDAR_USEPOLLING=true react-cy-scripts start",
+    "start": "concurrently 'yarn react-start' 'wait-on http://localhost:3000/ && yarn electron-start'",
     "build": "react-cy-scripts build",
     "test": "react-cy-scripts test --env=jsdom",
-    "eject": "react-cy-scripts eject"
+    "eject": "react-cy-scripts eject",
+    "electron-start": "ELECTRON_START_URL=http://localhost:3000 electron .",
+    "electron": "electron .",
+    "react-start": "BROWSER=none react-cy-scripts start"
   }
 }

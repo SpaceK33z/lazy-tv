@@ -22,18 +22,6 @@ export default class GameOverview extends Component {
 
     listRef = null;
 
-    @keydown(Keys.right)
-    selectGameFromRightArrow(e) {
-        e.preventDefault();
-        this.selectGame('right');
-    }
-
-    @keydown(Keys.left)
-    selectGameFromLeftArrow(e) {
-        e.preventDefault();
-        this.selectGame('left');
-    }
-
     selectGame = throttle((direction) => {
         const { store } = this.props;
         store.changeGame(direction);
@@ -82,14 +70,17 @@ export default class GameOverview extends Component {
             }
         });
 
+        // Note that this also reacts on keyboard arrow left!
         gamepadInstance.on('hold', 'd_pad_left', () => {
             this.selectGameFromAxis('left');
         });
 
+        // And this on keyboard arrow right as well!
         gamepadInstance.on('hold', 'd_pad_right', () => {
             this.selectGameFromAxis('right');
         });
 
+        // And this also reacts on SPACE
         gamepadInstance.on('press', 'button_1', () => {
             this.startGame();
         });

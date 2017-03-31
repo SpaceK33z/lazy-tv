@@ -1,5 +1,6 @@
 import { observable, computed } from 'mobx';
-import Gamepad from './gamepad';
+import Gamepad from './patch/gamepad';
+import Config from './Config';
 
 const GAMES = [
     {
@@ -47,6 +48,7 @@ export default class ViewStore {
     gamepadInstance = null;
 
     constructor() {
+        const config = new Config({ configName: 'config', defaults: {} });
         this.selectedGame = this.games[0];
 
         this.gamepadInstance = new Gamepad();
