@@ -4,6 +4,7 @@ const url = require('url');
 
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
+const IS_PROD = process.env.NODE_ENV === 'production';
 
 let mainWindow;
 
@@ -12,8 +13,15 @@ function onClosed() {
 }
 
 function createWindow() {
-    // TODO: Launch full width and height by default
-    const win = new BrowserWindow({ width: 800, height: 600 });
+    const win = new BrowserWindow({
+        // When devving it is frustrating to have fullscreen mode on.
+        // When explicitly set to false it will not allow fullscreen at all, so we use undefined.
+        fullscreen: IS_PROD ? true : undefined,
+    });
+
+    if (!IS_PROD) {
+        win.maximize();
+    }
 
     const startUrl = process.env.ELECTRON_START_URL ||
         url.format({
@@ -22,8 +30,9 @@ function createWindow() {
             slashes: true,
         });
     win.loadURL(startUrl);
-    // TODO: I guess this should only be done in dev?
-    win.webContents.openDevTools();
+    if (!IS_PROD) {
+        win.webContents.openDevTools();
+    }
 
     win.on('closed', onClosed);
 
