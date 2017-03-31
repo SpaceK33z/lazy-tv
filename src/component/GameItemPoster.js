@@ -39,8 +39,6 @@ export default class GameItemPoster extends Component {
             src = '';
         }
 
-        return (
-            <img src={src} alt={this.props.game.title} className={this.props.className} />
-        );
+        return <img src={src} alt={this.props.game.title} className={this.props.className} />;
     }
 }
