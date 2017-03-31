@@ -11,7 +11,7 @@ const GAME_ITEM_WIDTH = 410;
 const SCROLL_ANIMATION_MS = 300;
 const AXIS_DEBOUNCE_MS = 100;
 const AXIS_DEBOUNCE_WAIT_MS = 200;
-const AXIS_MOVE_TRESHOLD = .75;
+const AXIS_MOVE_TRESHOLD = 0.75;
 const START_GAME_DEBOUNCE_MS = 1000;
 
 @observer
@@ -22,46 +22,64 @@ export default class GameOverview extends Component {
 
     listRef = null;
 
-    selectGame = throttle((direction) => {
-        const { store } = this.props;
-        store.changeGame(direction);
-        this.scrollToGame();
-    }, SCROLL_ANIMATION_MS, { leading: true });
+    selectGame = throttle(
+        direction => {
+            const { store } = this.props;
+            store.changeGame(direction);
+            this.scrollToGame();
+        },
+        SCROLL_ANIMATION_MS,
+        { leading: true }
+    );
 
     scrollToGame = () => {
-        const index = this.props.store.selectedGameIndex
-        const scrollX = (index * GAME_ITEM_WIDTH);
-        scrollToWithAnimation(this.listRef, 'scrollLeft', scrollX, SCROLL_ANIMATION_MS, 'easeInOutSine');
+        const index = this.props.store.selectedGameIndex;
+        const scrollX = index * GAME_ITEM_WIDTH;
+        scrollToWithAnimation(
+            this.listRef,
+            'scrollLeft',
+            scrollX,
+            SCROLL_ANIMATION_MS,
+            'easeInOutSine'
+        );
     };
 
-    handleGameClick = (game) => {
+    handleGameClick = game => {
         const { store } = this.props;
         store.selectedGame = game;
         this.scrollToGame();
     };
 
-    setListRef = (ref) => {
+    setListRef = ref => {
         this.listRef = ref;
     };
 
-    selectGameFromAxis = debounce((direction) => {
-        this.selectGame(direction);
-    }, AXIS_DEBOUNCE_MS, { maxWait: AXIS_DEBOUNCE_WAIT_MS, immediate: true });
+    selectGameFromAxis = debounce(
+        direction => {
+            this.selectGame(direction);
+        },
+        AXIS_DEBOUNCE_MS,
+        { maxWait: AXIS_DEBOUNCE_WAIT_MS, immediate: true }
+    );
 
     @keydown(Keys.enter)
     startGameFromEnter(e) {
         e.preventDefault();
         this.startGame();
-    };
+    }
 
-    startGame = debounce(() => {
-        console.log('START game');
-    }, START_GAME_DEBOUNCE_MS, { leading: true, trailing: false });
+    startGame = debounce(
+        () => {
+            console.log('START game');
+        },
+        START_GAME_DEBOUNCE_MS,
+        { leading: true, trailing: false }
+    );
 
     componentDidMount() {
         const { gamepadInstance } = this.props.store;
         gamepadInstance.on('hold', 'stick_axis_left', e => {
-            const [ x ] = e.value;
+            const [x] = e.value;
             if (x > AXIS_MOVE_TRESHOLD) {
                 this.selectGameFromAxis('right');
             }
@@ -86,7 +104,7 @@ export default class GameOverview extends Component {
         });
     }
 
-    renderGame = (game) => {
+    renderGame = game => {
         const selectedGame = this.props.store.selectedGame;
         return (
             <GameItem
@@ -100,12 +118,16 @@ export default class GameOverview extends Component {
 
     render() {
         const { store } = this.props;
-        return (
-            <HorizontalCenter>
+        let content;
+        if (store.games.length) {
+            content = (
                 <GameList innerRef={this.setListRef}>
                     {store.games.map(this.renderGame)}
                 </GameList>
-            </HorizontalCenter>
-        );
+            );
+        } else {
+            content = <p>You have no games yet!</p>;
+        }
+        return <HorizontalCenter>{content}</HorizontalCenter>;
     }
 }

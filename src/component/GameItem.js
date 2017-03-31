@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { observer } from 'mobx-react';
 import styled from 'styled-components';
+import GameItemPoster from './GameItemPoster';
 
 const StyledItem = styled.button`
     background: transparent;
@@ -17,7 +18,7 @@ const StyledItem = styled.button`
     `}
 `;
 
-const StyledImg = styled.img`
+const StyledPoster = styled(GameItemPoster)`
     display: block;
 `;
 
@@ -41,7 +42,7 @@ export default class GameItem extends Component {
                 selected={this.props.selected}
                 onClick={this.handleClick}
             >
-                <StyledImg src={game.poster} />
+                <StyledPoster game={game} />
             </StyledItem>
         );
     }
