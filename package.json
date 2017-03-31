@@ -1,5 +1,7 @@
 {
   "name": "big-picture",
+  "description": "Big Picture TV Mode",
+  "author": "Kees Kluskens <kees@webduck.nl>",
   "version": "0.1.0",
   "private": true,
   "homepage": "./",
@@ -7,6 +9,7 @@
   "devDependencies": {
     "concurrently": "^3.4.0",
     "electron": "^1.6.2",
+    "electron-builder": "^16.6.0",
     "eslint": "^3.18.0",
     "eslint-config-codeyellow": "^4.0.0",
     "react-cy-scripts": "0.10.1",
@@ -26,13 +29,19 @@
     "scrollto-with-animation": "^4.5.2",
     "styled-components": "^1.4.4"
   },
+  "build": {
+    "appId": "nl.webduck.big-picture",
+    "mac": {
+      "category": "public.app-category.productivity"
+    }
+  },
   "scripts": {
-    "start": "concurrently 'yarn react-start' 'wait-on http://localhost:3000/ && yarn electron-start'",
-    "build": "react-cy-scripts build",
+    "start": "concurrently 'yarn browser-start' 'wait-on http://localhost:3000/ && yarn electron-start'",
+    "build": "yarn run browser-build && build",
+    "browser-build": "rm -rf browser-build && react-cy-scripts build && mv build browser-build",
     "test": "react-cy-scripts test --env=jsdom",
-    "eject": "react-cy-scripts eject",
     "electron-start": "ELECTRON_START_URL=http://localhost:3000 electron .",
     "electron": "electron .",
-    "react-start": "BROWSER=none react-cy-scripts start"
+    "browser-start": "BROWSER=none react-cy-scripts start"
   }
 }
