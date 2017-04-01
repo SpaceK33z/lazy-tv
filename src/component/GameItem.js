@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { observer } from 'mobx-react';
 import styled from 'styled-components';
+import { DEFAULT_FONT, COLOR_WHITE } from '../styles';
 import GameItemPoster from './GameItemPoster';
 
 const StyledItem = styled.button`
@@ -22,6 +23,10 @@ const StyledPoster = styled(GameItemPoster)`
     display: block;
     width: 400px;
     height: 600px;
+    ${DEFAULT_FONT}
+    text-align: center;
+    font-size: 3em;
+    background: ${COLOR_WHITE};
 `;
 
 @observer
