@@ -20,6 +20,8 @@ const StyledItem = styled.button`
 
 const StyledPoster = styled(GameItemPoster)`
     display: block;
+    width: 400px;
+    height: 600px;
 `;
 
 @observer

@@ -3,8 +3,8 @@ import styled from 'styled-components';
 
 const ButtonIcon = styled.button`
     background: transparent;
-    width: 50px;
-    height: 50px;
+    width: ${props => props.width || '50px'};
+    height: ${props => props.height || '50px'};
     border: 0;
     display: block;
     padding: 0;

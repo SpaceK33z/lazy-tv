@@ -2,6 +2,7 @@ import { observable, computed } from 'mobx';
 import Gamepad from './patch/gamepad';
 import Config from './Config';
 import opn from './patch/opn';
+import { fs, app, path } from './electron';
 
 const DEFAULT_CONFIG = {
     games: [],
@@ -57,8 +58,15 @@ export default class ViewStore {
         opn('', { app: [program] });
     }
 
-    addGame(game) {
+    addGame(game, poster) {
         this.games.push(game);
         this.config.set('games', this.games);
+        if (poster) {
+            const userDataPath = app.getPath('userData');
+            const filePath = path.join(userDataPath, 'posters', `${game.title}.png`);
+            fs.writeFile(filePath, poster.toPng(), (err) => {
+                if (err) throw err;
+            });
+        }
     }
 }
