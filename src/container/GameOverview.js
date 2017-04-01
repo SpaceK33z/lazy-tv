@@ -5,7 +5,6 @@ import scrollToWithAnimation from 'scrollto-with-animation';
 import GameList from '../component/GameList';
 import GameItem from '../component/GameItem';
 import keydown, { Keys } from 'react-keydown';
-import HorizontalCenter from '../component/HorizontalCenter';
 
 const GAME_ITEM_WIDTH = 410;
 const SCROLL_ANIMATION_MS = 300;
@@ -124,16 +123,14 @@ export default class GameOverview extends Component {
 
     render() {
         const { store } = this.props;
-        let content;
         if (store.games.length) {
-            content = (
+            return (
                 <GameList innerRef={this.setListRef}>
                     {store.games.map(this.renderGame)}
                 </GameList>
             );
         } else {
-            content = <p>You have no games yet!</p>;
+            return <p>You have no games yet!</p>;
         }
-        return <HorizontalCenter>{content}</HorizontalCenter>;
     }
 }

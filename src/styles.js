@@ -8,6 +8,7 @@ export default injectGlobal`
       box-sizing: inherit;
     }
     body, #root {
+        width: 100%;
         height: 100vh;
         display: flex;
         flex-wrap: wrap;

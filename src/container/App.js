@@ -1,10 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import { observer } from 'mobx-react';
 import FullBackground from '../component/FullBackground';
-import ActionMenu from '../component/ActionMenu';
-import GameOverview from './GameOverview';
-import GamePadOverview from './GamePadOverview';
-import AddGame from './AddGame';
+import FlexColumn from '../component/FlexColumn';
+import Home from '../screen/Home';
+import AddGame from '../screen/AddGame';
 
 @observer
 export default class App extends Component {
@@ -14,14 +13,24 @@ export default class App extends Component {
 
     render() {
         const { store } = this.props;
+        const view = store.currentView;
+        let content;
+        switch (view) {
+            case 'home':
+                content = <Home store={store} />;
+                break;
+            case 'addGame':
+                content = <AddGame store={store} />;
+                break;
+            default:
+                throw new Error(`Unknown view: ${view}`);
+        }
+
         return (
-            <FullBackground>
-                <ActionMenu>
-                    <AddGame store={store} />
-                    <GamePadOverview store={store} />
-                </ActionMenu>
-                <GameOverview store={store} />
-            </FullBackground>
+            <FlexColumn>
+                <FullBackground />
+                {content}
+            </FlexColumn>
         );
     }
 }

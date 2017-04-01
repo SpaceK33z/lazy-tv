@@ -11,11 +11,13 @@ export default class ViewStore {
     @observable games = [];
     @observable selectedGame = null;
     @observable gamepads = [];
+    @observable currentView = 'home';
     gamepadInstance = null;
+    config = null;
 
     constructor() {
-        const config = new Config({ configName: 'config', defaults: DEFAULT_CONFIG });
-        this.games = config.get('games');
+        this.config = new Config({ configName: 'config', defaults: DEFAULT_CONFIG });
+        this.games = this.config.get('games');
         if (this.games.length) {
             this.selectedGame = this.games[0];
         }
@@ -53,5 +55,10 @@ export default class ViewStore {
             return;
         }
         opn('', { app: [program] });
+    }
+
+    addGame(game) {
+        this.games.push(game);
+        this.config.set('games', this.games);
     }
 }
