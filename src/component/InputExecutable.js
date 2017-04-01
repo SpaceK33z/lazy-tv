@@ -2,9 +2,9 @@ import React, { Component, PropTypes } from 'react';
 import { observer } from 'mobx-react';
 import styled from 'styled-components';
 import { dialog, process } from '../electron';
+import { StyledInput as StyledTextInput } from './InputText';
 
-const StyledInput = styled.input`
-    flex: 1;
+const StyledInput = styled(StyledTextInput)`
     cursor: pointer;
 `;
 
@@ -20,6 +20,7 @@ export default class InputExecutable extends Component {
     static propTypes = {
         onChange: PropTypes.func.isRequired,
         name: PropTypes.string.isRequired,
+        placeholder: PropTypes.string,
         value: PropTypes.string,
     };
 
@@ -45,6 +46,7 @@ export default class InputExecutable extends Component {
             <StyledInput
                 name={this.props.name}
                 value={this.props.value}
+                placeholder={this.props.placeholder}
                 onChange={() => null}
                 onClick={this.handleClick}
                 readOnly

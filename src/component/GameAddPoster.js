@@ -5,10 +5,12 @@ import { dialog, app, nativeImage } from '../electron';
 import ButtonIcon from '../component/ButtonIcon';
 import EmptyPosterImg from '../image/empty-poster.png';
 
-const EXTENSION_FILTERS = [{
-    name: 'Images',
-    extensions: ['png', 'jpg']
-}];
+const EXTENSION_FILTERS = [
+    {
+        name: 'Images',
+        extensions: ['png', 'jpg'],
+    },
+];
 
 const DEFAULT_PATH = app.getPath('downloads');
 
@@ -38,11 +40,15 @@ export default class GameAddPoster extends Component {
     };
 
     handleClick = e => {
-        dialog.showOpenDialog({
-            filters: EXTENSION_FILTERS,
-            defaultPath: DEFAULT_PATH,
-            properties: ['openFile'],
-        }, this.handleChange);
+        dialog.showOpenDialog(
+            {
+                filters: EXTENSION_FILTERS,
+                defaultPath: DEFAULT_PATH,
+                buttonLabel: 'Use as poster',
+                properties: ['openFile'],
+            },
+            this.handleChange
+        );
     };
 
     render() {

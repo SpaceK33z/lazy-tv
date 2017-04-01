@@ -11,7 +11,7 @@ import Form from '../component/Form';
 import styled from 'styled-components';
 
 const StyledForm = styled(Form)`
-    width: 800px;
+    width: 900px;
 `;
 
 const Wrapper = styled.div`
@@ -23,6 +23,12 @@ const RightSide = styled.div`
     flex: 1;
     flex-direction: column;
     margin-left: 20px;
+`;
+
+const FormButtons = styled.div`
+    display: flex;
+    justify-content: flex-end;
+    margin-right: -20px;
 `;
 
 @observer
@@ -43,6 +49,9 @@ export default class AddGame extends Component {
     };
 
     handleSubmit = () => {
+        if (!this.game.title || !this.game.program) {
+            return;
+        }
         this.props.store.addGame(this.game, this.image);
         this.props.store.currentView = 'home';
     };
@@ -66,6 +75,7 @@ export default class AddGame extends Component {
                                 name="title"
                                 value={this.game.title}
                                 onChange={this.handleInput}
+                                placeholder="Choose a title"
                                 autoFocus
                             />
                         </FormField>
@@ -73,15 +83,16 @@ export default class AddGame extends Component {
                             <InputExecutable
                                 name="program"
                                 value={this.game.program}
+                                placeholder="Click to select a game"
                                 onChange={this.handleInput}
                             />
                         </FormField>
+                        <FormButtons>
+                            <Button type="submit">Save</Button>
+                            <Button type="button" onClick={this.handleCancel}>Cancel</Button>
+                        </FormButtons>
                     </RightSide>
                 </Wrapper>
-                <FormField label="">
-                    <Button type="submit">Save</Button>
-                    <Button type="button" onClick={this.handleCancel}>Cancel</Button>
-                </FormField>
             </StyledForm>
         );
     }

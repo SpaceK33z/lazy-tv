@@ -1,4 +1,11 @@
-import { injectGlobal } from 'styled-components';
+import { injectGlobal, css } from 'styled-components';
+
+export const DEFAULT_FONT = css`
+    font-family: -apple-system, system-ui, "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif;
+`;
+
+export const COLOR_WHITE = 'rgba(255, 255, 255, .9)';
+export const COLOR_PRIMARY = 'rgba(36, 242, 242, 1)';
 
 export default injectGlobal`
     html {
