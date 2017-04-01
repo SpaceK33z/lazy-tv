@@ -17,6 +17,11 @@ function createWindow() {
         // When devving it is frustrating to have fullscreen mode on.
         // When explicitly set to false it will not allow fullscreen at all, so we use undefined.
         fullscreen: IS_PROD ? true : undefined,
+        webPreferences: {
+            // Okay this looks pretty stupid, but disabling webSecurity allows us to load files from the filesystem in an <img> directy.
+            // It is also possible to do that with nativeImage and `toDataURL()`, but that is _very_ slow.
+            webSecurity: false,
+        },
     });
 
     if (!IS_PROD) {
