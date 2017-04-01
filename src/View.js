@@ -1,8 +1,7 @@
 import { observable, computed } from 'mobx';
 import Gamepad from './patch/gamepad';
 import Config from './Config';
-import opn from './patch/opn';
-import { fs, app, path } from './electron';
+import { fs, app, path, shell } from './electron';
 
 const DEFAULT_CONFIG = {
     games: [],
@@ -56,7 +55,7 @@ export default class ViewStore {
             // TODO: Maybe show an error notification here one day.
             return;
         }
-        opn('', { app: [program] });
+        shell.openItem(program);
     }
 
     addGame(game, poster) {
@@ -75,10 +74,6 @@ export default class ViewStore {
         this.games.remove(game);
         this.config.set('games', this.games);
         const filePath = path.join(userDataPath, 'posters', `${game.title}.png`);
-        fs.unlink(filePath, (err) => {
-            if (err && err.code !== 'ENOENT') {
-                throw err;
-            }
-        });
+        shell.moveItemToTrash(filePath);
     }
 }
