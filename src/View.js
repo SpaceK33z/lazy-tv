@@ -13,7 +13,7 @@ export default class ViewStore {
     @observable selectedGame = null;
     @observable gamepads = [];
     @observable currentView = 'home';
-    gamepadInstance = null;
+    gpInstance = null;
     config = null;
 
     constructor() {
@@ -22,13 +22,13 @@ export default class ViewStore {
         if (this.games.length) {
             this.selectedGame = this.games[0];
         }
-        this.gamepadInstance = new Gamepad();
+        this.gpInstance = new Gamepad();
 
-        this.gamepadInstance.on('connect', (e) => {
+        this.gpInstance.on('connect', (e) => {
             this.gamepads.push(e);
         });
 
-        this.gamepadInstance.on('disconnect', (e) => {
+        this.gpInstance.on('disconnect', (e) => {
             const gamepad = this.gamepads.find((gp) => gp.index === e.index);
             if (gamepad) {
                 this.gamepads.remove(gamepad);

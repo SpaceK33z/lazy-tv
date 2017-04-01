@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { observer } from 'mobx-react';
 import { throttle, debounce } from 'lodash';
 import scrollToWithAnimation from 'scrollto-with-animation';
+import Gamepad from '../patch/gamepad';
 import GameList from '../component/GameList';
 import GameItem from '../component/GameItem';
 import keydown, { Keys } from 'react-keydown';
@@ -20,6 +21,7 @@ export default class GameOverview extends Component {
     };
 
     listRef = null;
+    gpInstance = null;
 
     selectGame = throttle(
         direction => {
@@ -47,7 +49,7 @@ export default class GameOverview extends Component {
         const { store } = this.props;
         const wasAlreadySelected = game === store.selectedGame;
         store.selectedGame = game;
-        this.scrollToGame();
+        // this.scrollToGame();
         if (wasAlreadySelected) {
             this.startGame();
         }
@@ -98,8 +100,8 @@ export default class GameOverview extends Component {
     }
 
     componentDidMount() {
-        const { gamepadInstance } = this.props.store;
-        gamepadInstance.on('hold', 'stick_axis_left', e => {
+        this.gpInstance = new Gamepad();
+        this.gpInstance.on('hold', 'stick_axis_left', e => {
             const [x] = e.value;
             if (x > AXIS_MOVE_TRESHOLD) {
                 this.selectGameFromAxis('right');
@@ -110,19 +112,26 @@ export default class GameOverview extends Component {
         });
 
         // Note that this also reacts on keyboard arrow left!
-        gamepadInstance.on('hold', 'd_pad_left', () => {
+        this.gpInstance.on('hold', 'd_pad_left', () => {
             this.selectGameFromAxis('left');
         });
 
         // And this on keyboard arrow right as well!
-        gamepadInstance.on('hold', 'd_pad_right', () => {
+        this.gpInstance.on('hold', 'd_pad_right', () => {
             this.selectGameFromAxis('right');
         });
 
         // And this also reacts on SPACE
-        gamepadInstance.on('press', 'button_1', () => {
+        this.gpInstance.on('press', 'button_1', () => {
             this.startGame();
         });
+    }
+
+    componentWillUnmount() {
+        if (this.gpInstance) {
+            this.gpInstance.destroy();
+            this.gpInstance = null;
+        }
     }
 
     renderGame = game => {
