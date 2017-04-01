@@ -4,7 +4,7 @@ const url = require('url');
 
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
-const IS_PROD = process.env.NODE_ENV === 'production';
+const IS_PROD = process.mainModule.filename.includes('app.asar');
 
 let mainWindow;
 
