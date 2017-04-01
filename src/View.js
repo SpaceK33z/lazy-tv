@@ -7,6 +7,7 @@ import { fs, app, path } from './electron';
 const DEFAULT_CONFIG = {
     games: [],
 };
+const userDataPath = app.getPath('userData');
 
 export default class ViewStore {
     @observable games = [];
@@ -62,11 +63,22 @@ export default class ViewStore {
         this.games.push(game);
         this.config.set('games', this.games);
         if (poster) {
-            const userDataPath = app.getPath('userData');
             const filePath = path.join(userDataPath, 'posters', `${game.title}.png`);
             fs.writeFile(filePath, poster.toPng(), (err) => {
                 if (err) throw err;
             });
         }
+    }
+
+    removeGame() {
+        const game = this.selectedGame;
+        this.games.remove(game);
+        this.config.set('games', this.games);
+        const filePath = path.join(userDataPath, 'posters', `${game.title}.png`);
+        fs.unlink(filePath, (err) => {
+            if (err && err.code !== 'ENOENT') {
+                throw err;
+            }
+        });
     }
 }

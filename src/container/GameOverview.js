@@ -11,7 +11,7 @@ const SCROLL_ANIMATION_MS = 300;
 const AXIS_DEBOUNCE_MS = 100;
 const AXIS_DEBOUNCE_WAIT_MS = 200;
 const AXIS_MOVE_TRESHOLD = 0.75;
-const START_GAME_DEBOUNCE_MS = 1000;
+const GAME_ACTION_DEBOUNCE_MS = 1000;
 
 @observer
 export default class GameOverview extends Component {
@@ -71,7 +71,13 @@ export default class GameOverview extends Component {
         this.startGame();
     }
 
-    startGame = debounce(this._startGame, START_GAME_DEBOUNCE_MS, {
+    @keydown(Keys.del)
+    removeGameFromDel(e) {
+        e.preventDefault();
+        this.removeGame();
+    }
+
+    startGame = debounce(this._startGame, GAME_ACTION_DEBOUNCE_MS, {
         leading: true,
         trailing: false,
     });
@@ -79,6 +85,16 @@ export default class GameOverview extends Component {
     _startGame() {
         console.log('START game');
         this.props.store.openGame();
+    }
+
+    removeGame = debounce(this._removeGame, GAME_ACTION_DEBOUNCE_MS, {
+        leading: true,
+        trailing: false,
+    });
+
+    _removeGame() {
+        console.log('REMOVE game');
+        this.props.store.removeGame();
     }
 
     componentDidMount() {
