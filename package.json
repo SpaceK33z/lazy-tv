@@ -1,5 +1,5 @@
 {
-  "name": "big-picture",
+  "name": "lazy-tv",
   "description": "Big Picture TV Mode",
   "author": "Kees Kluskens <kees@webduck.nl>",
   "version": "0.1.0",
@@ -30,7 +30,7 @@
     "styled-components": "^1.4.4"
   },
   "build": {
-    "appId": "nl.webduck.big-picture",
+    "appId": "nl.webduck.lazy-tv",
     "mac": {
       "category": "public.app-category.productivity"
     }
