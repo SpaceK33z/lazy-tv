@@ -7,3 +7,5 @@ I replaced the PS4 with a HTPC connected to my TV. Using keyboard and mouse to n
 **So I built my own big picture mode.**
 
 -TODO cool gif-
+
+Note that this is still in early stages, but if you are interested and want to share your ideas, please create a ticket.
