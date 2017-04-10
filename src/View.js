@@ -59,18 +59,21 @@ export default class ViewStore {
     }
 
     addGame(game, poster) {
-        this.games.push(game);
-        this.config.set('games', this.games);
-        if (poster) {
-            const folderPath = path.join(userDataPath, 'posters');
-            const filePath = path.join(folderPath, `${game.title}.png`);
-            fs.mkdir(folderPath, (err) => {
-                if (err && err.code !== 'EEXIST') throw err;
-                fs.writeFile(filePath, poster.toPng(), (err) => {
-                    if (err) throw err;
+        return new Promise((resolve, reject) => {
+            this.games.push(game);
+            this.config.set('games', this.games);
+            if (poster) {
+                const folderPath = path.join(userDataPath, 'posters');
+                const filePath = path.join(folderPath, `${game.title}.png`);
+                fs.mkdir(folderPath, (err) => {
+                    if (err && err.code !== 'EEXIST') throw err;
+                    fs.writeFile(filePath, poster.toPng(), (err) => {
+                        if (err) throw err;
+                        resolve();
+                    });
                 });
-            });
-        }
+            }
+        });
     }
 
     removeGame() {

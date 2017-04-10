@@ -43,6 +43,7 @@ export default class AddGame extends Component {
     };
 
     @observable image = null;
+    @observable submitting = false;
 
     handleInput = (key, value) => {
         this.game[key] = value;
@@ -52,8 +53,14 @@ export default class AddGame extends Component {
         if (!this.game.title || !this.game.program) {
             return;
         }
-        this.props.store.addGame(this.game, this.image);
-        this.props.store.currentView = 'home';
+        this.submitting = true;
+        this.props.store.addGame(this.game, this.image)
+        .then(() => {
+            this.props.store.currentView = 'home';
+        })
+        .catch(() => {
+            this.submitting = false;
+        });
     };
 
     handleCancel = () => {
@@ -88,7 +95,7 @@ export default class AddGame extends Component {
                             />
                         </FormField>
                         <FormButtons>
-                            <Button type="submit">Save</Button>
+                            <Button type="submit" disabled={this.submitting}>Save</Button>
                             <Button type="button" onClick={this.handleCancel}>Cancel</Button>
                         </FormButtons>
                     </RightSide>
