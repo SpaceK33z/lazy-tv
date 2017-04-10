@@ -5,6 +5,8 @@ const url = require('url');
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 const IS_PROD = process.mainModule.filename.includes('app.asar');
+// TODO: Windows replaces : to ; in env variables (or maybe cross-env)? Anyway, I was flabbergasted and just wanted to get it over with.
+const ELECTRON_START_URL = process.env.ELECTRON_START_URL ? process.env.ELECTRON_START_URL.replace(/;/g, ':') : '';
 
 let mainWindow;
 
@@ -28,7 +30,7 @@ function createWindow() {
         win.maximize();
     }
 
-    const startUrl = process.env.ELECTRON_START_URL ||
+    const startUrl = ELECTRON_START_URL ||
         url.format({
             pathname: path.join(__dirname, '/../browser-build/index.html'),
             protocol: 'file:',

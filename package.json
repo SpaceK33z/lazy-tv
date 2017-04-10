@@ -8,6 +8,7 @@
   "main": "src/electron-starter.js",
   "devDependencies": {
     "concurrently": "^3.4.0",
+    "cross-env": "^4.0.0",
     "electron": "^1.6.2",
     "electron-builder": "^16.6.0",
     "eslint": "^3.18.0",
@@ -26,6 +27,7 @@
     "react-dom": "^15.4.2",
     "react-keydown": "^1.6.9",
     "react-test-renderer": "^15.4.2",
+    "rimraf": "^2.6.1",
     "scrollto-with-animation": "^4.5.2",
     "styled-components": "^1.4.4"
   },
@@ -36,12 +38,12 @@
     }
   },
   "scripts": {
-    "start": "concurrently 'yarn browser-start' 'wait-on http://localhost:3000/ && yarn electron-start'",
+    "start": "concurrently \"yarn browser-start\" \"wait-on http://localhost:3000/ && yarn electron-start\"",
     "build": "yarn run browser-build && build",
-    "browser-build": "rm -rf browser-build && react-cy-scripts build && mv build browser-build",
+    "browser-build": "rimraf browser-build && react-cy-scripts build && mv build browser-build",
     "test": "react-cy-scripts test --env=jsdom",
-    "electron-start": "ELECTRON_START_URL=http://localhost:3000 electron .",
+    "electron-start": "cross-env ELECTRON_START_URL=http://localhost:3000 electron .",
     "electron": "electron .",
-    "browser-start": "BROWSER=none react-cy-scripts start"
+    "browser-start": "cross-env BROWSER=none react-cy-scripts start"
   }
 }
