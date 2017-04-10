@@ -62,9 +62,13 @@ export default class ViewStore {
         this.games.push(game);
         this.config.set('games', this.games);
         if (poster) {
-            const filePath = path.join(userDataPath, 'posters', `${game.title}.png`);
-            fs.writeFile(filePath, poster.toPng(), (err) => {
-                if (err) throw err;
+            const folderPath = path.join(userDataPath, 'posters');
+            const filePath = path.join(folderPath, `${game.title}.png`);
+            fs.mkdir(folderPath, (err) => {
+                if (err && err.code !== 'EEXIST') throw err;
+                fs.writeFile(filePath, poster.toPng(), (err) => {
+                    if (err) throw err;
+                });
             });
         }
     }
