@@ -1,3 +1,4 @@
+// TODO: yes, this is stupid. I need to find a better workaround...
 const electron = window.require('electron');
 
 export const app = electron.remote.app;
