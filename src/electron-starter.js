@@ -2,8 +2,7 @@ const electron = require('electron');
 const path = require('path');
 const url = require('url');
 
-const app = electron.app;
-const BrowserWindow = electron.BrowserWindow;
+const { app, BrowserWindow, ipcMain } = electron;
 const IS_PROD = process.mainModule.filename.includes('app.asar');
 // TODO: Windows replaces : to ; in env variables (or maybe cross-env)? Anyway, I was flabbergasted and just wanted to get it over with.
 const ELECTRON_START_URL = process.env.ELECTRON_START_URL

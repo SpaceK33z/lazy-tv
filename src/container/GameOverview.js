@@ -6,6 +6,7 @@ import Gamepad from '../patch/gamepad';
 import GameList from '../component/GameList';
 import GameItem from '../component/GameItem';
 import keydown, { Keys } from 'react-keydown';
+import { getCurrentWindow } from '../electron';
 
 const GAME_ITEM_WIDTH = 410;
 const SCROLL_ANIMATION_MS = 300;
@@ -101,6 +102,15 @@ export default class GameOverview extends Component {
 
     componentDidMount() {
         this.gpInstance = new Gamepad();
+        const myWindow = getCurrentWindow();
+        myWindow.on('focus', () => {
+            this.gpInstance.resume();
+        });
+
+        myWindow.on('blur', () => {
+            this.gpInstance.pause();
+        });
+
         this.gpInstance.on('hold', 'stick_axis_left', e => {
             const [x] = e.value;
             if (x > AXIS_MOVE_TRESHOLD) {
