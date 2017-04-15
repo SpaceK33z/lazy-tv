@@ -10,9 +10,12 @@ const StyledDeleteButton = styled.button`
     cursor: pointer;
     width: 30px;
     height: 30px;
-    background: red;
+    background: #ef3845;
     border: 0;
     line-height: 1;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    box-shadow: 0px -10px 11px -11px rgba(0, 0, 0, 0.6);
 `;
 
 export default StyledDeleteButton;
