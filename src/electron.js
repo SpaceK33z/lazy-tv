@@ -9,3 +9,4 @@ export const process = electron.remote.process;
 export const nativeImage = electron.remote.nativeImage;
 export const dialog = electron.remote.dialog;
 export const shell = electron.remote.shell;
+export const IS_PROD = process.mainModule.filename.includes('app.asar');

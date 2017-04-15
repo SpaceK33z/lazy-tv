@@ -1,5 +1,12 @@
-import { childProcess, process, shell } from './electron';
+import { childProcess, process, shell, app, path, IS_PROD } from './electron';
 import csvParse from 'csv-parse/lib/sync';
+
+// To run an executable that is in our public/ folder, we need to exclude it from the ASAR archive in package.json first,
+// and then adjust the path to the public folder to get it to run.
+let publicDir = path.join(`${app.getAppPath()}.unpacked`, 'public/');
+if (!IS_PROD) {
+    publicDir = path.join('public');
+}
 
 export function startGame(program) {
     if (process.platform !== 'win32') {
@@ -14,7 +21,7 @@ export function startGame(program) {
         const activeProgram = output.find(data => data['Image Name'] === programExe);
         if (activeProgram) {
             const programId = activeProgram['PID'];
-            const runScript = `.\\public\\activate-window-by-pid.exe ${programId}`;
+            const runScript = `"${path.join(publicDir, 'activate-window-by-pid.exe')}" ${programId}`;
             console.log('Game already started, trying to focus it...', activeProgram);
             childProcess.exec(runScript, (err, stdout, stderr) => {
                 if (err) console.error(err);

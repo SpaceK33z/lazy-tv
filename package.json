@@ -34,6 +34,8 @@
   },
   "build": {
     "appId": "nl.webduck.lazy-tv",
+    "asarUnpack": ["public/*.exe"],
+    "compression": "store",
     "mac": {
       "category": "public.app-category.productivity"
     }
