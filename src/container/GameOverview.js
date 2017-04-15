@@ -103,15 +103,18 @@ export default class GameOverview extends Component {
         this.props.store.removeGame();
     }
 
+    resumeGpEvents = () => {
+        this.gpInstance.resume();
+    };
+
+    pauseGpEvents = () => {
+        this.gpInstance.pause();
+    };
+
     componentDidMount() {
         this.gpInstance = new Gamepad();
-        myWindow.on('focus', () => {
-            this.gpInstance.resume();
-        });
-
-        myWindow.on('blur', () => {
-            this.gpInstance.pause();
-        });
+        myWindow.on('focus', this.resumeGpEvents);
+        myWindow.on('blur', this.pauseGpEvents);
 
         this.gpInstance.on('hold', 'stick_axis_left', e => {
             const [x] = e.value;
@@ -144,8 +147,8 @@ export default class GameOverview extends Component {
             this.gpInstance.destroy();
             this.gpInstance = null;
         }
-        myWindow.off('focus');
-        myWindow.off('blur');
+        myWindow.removeListener('focus', this.resumeGpEvents);
+        myWindow.removeListener('blur', this.pauseGpEvents);
     }
 
     renderGame = game => {
