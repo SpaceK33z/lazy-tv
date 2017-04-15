@@ -11,11 +11,12 @@ export default class GameEditOverview extends Component {
         store: PropTypes.object.isRequired,
     };
 
-    handleGameClick = game => {
+    handleGameRemove = (game) => {
+        this.props.store.removeGame(game);
     };
 
-    setListRef = ref => {
-        this.listRef = ref;
+    handleGameClick = () => {
+        //
     };
 
     renderGame = game => {
@@ -24,6 +25,7 @@ export default class GameEditOverview extends Component {
                 key={game.title}
                 game={game}
                 onClick={this.handleGameClick}
+                onClickRemove={this.handleGameRemove}
                 selected={false}
             />
         );
@@ -33,7 +35,7 @@ export default class GameEditOverview extends Component {
         const { store } = this.props;
         if (store.games.length) {
             return (
-                <GameList innerRef={this.setListRef}>
+                <GameList>
                     {store.games.map(this.renderGame)}
                 </GameList>
             );

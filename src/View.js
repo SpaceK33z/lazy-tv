@@ -77,8 +77,7 @@ export default class ViewStore {
         });
     }
 
-    removeGame() {
-        const game = this.selectedGame;
+    removeGame(game) {
         this.games.remove(game);
         this.config.set('games', this.games);
         const filePath = path.join(userDataPath, 'posters', `${game.title}.png`);

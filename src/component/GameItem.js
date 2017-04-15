@@ -4,13 +4,19 @@ import { observer } from 'mobx-react';
 import styled from 'styled-components';
 import { DEFAULT_FONT, COLOR_WHITE } from '../styles';
 import GameItemPoster from './GameItemPoster';
+import GameDeleteButton from './GameDeleteButton';
+
+const StyledWrapper = styled.div`
+    margin: 0 .5em;
+    position: relative;
+`;
 
 const StyledItem = styled.button`
     background: transparent;
     border: 0;
     display: block;
     padding: 0;
-    margin: 0 .5em;
+    margin: 0;
     box-shadow: 0px 0px 11px 1px rgba(0, 0, 0, 0.6);
     transition: 350ms ease;
     outline: 0;
@@ -36,22 +42,28 @@ export default class GameItem extends Component {
         game: PropTypes.object.isRequired,
         selected: PropTypes.bool.isRequired,
         onClick: PropTypes.func.isRequired,
+        onClickRemove: PropTypes.func,
     };
 
     handleClick = () => {
         this.props.onClick(this.props.game);
     };
 
+    handleClickRemove = () => {
+        this.props.onClickRemove(this.props.game);
+    };
+
     render() {
         const { game } = this.props;
         return (
-            <StyledItem
-                type="button"
-                selected={this.props.selected}
-                onClick={this.handleClick}
-            >
-                <StyledPoster game={game} />
-            </StyledItem>
+            <StyledWrapper>
+                {this.props.onClickRemove
+                    ? <GameDeleteButton onClick={this.handleClickRemove}>✖</GameDeleteButton>
+                    : null}
+                <StyledItem type="button" selected={this.props.selected} onClick={this.handleClick}>
+                    <StyledPoster game={game} />
+                </StyledItem>
+            </StyledWrapper>
         );
     }
 }

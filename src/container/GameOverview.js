@@ -78,12 +78,6 @@ export default class GameOverview extends Component {
         this.startGame();
     }
 
-    @keydown(Keys.del)
-    removeGameFromDel(e) {
-        e.preventDefault();
-        this.removeGame();
-    }
-
     startGame = debounce(this._startGame, GAME_ACTION_DEBOUNCE_MS, {
         leading: true,
         trailing: false,
@@ -92,16 +86,6 @@ export default class GameOverview extends Component {
     _startGame() {
         console.log('START game');
         this.props.store.openGame();
-    }
-
-    removeGame = debounce(this._removeGame, GAME_ACTION_DEBOUNCE_MS, {
-        leading: true,
-        trailing: false,
-    });
-
-    _removeGame() {
-        console.log('REMOVE game');
-        this.props.store.removeGame();
     }
 
     resumeGpEvents = () => {
