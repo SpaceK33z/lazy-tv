@@ -62,7 +62,7 @@ export default class ViewStore {
     addGame(game, poster) {
         return new Promise((resolve, reject) => {
             this.games.push(game);
-            this.config.set('games', this.games);
+            this.saveGamesToConfig();
             if (poster) {
                 const folderPath = path.join(userDataPath, 'posters');
                 const filePath = path.join(folderPath, `${game.title}.png`);
@@ -79,8 +79,12 @@ export default class ViewStore {
 
     removeGame(game) {
         this.games.remove(game);
-        this.config.set('games', this.games);
+        this.saveGamesToConfig();
         const filePath = path.join(userDataPath, 'posters', `${game.title}.png`);
         shell.moveItemToTrash(filePath);
+    }
+
+    saveGamesToConfig() {
+        this.config.set('games', this.games);
     }
 }

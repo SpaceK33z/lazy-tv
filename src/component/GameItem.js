@@ -20,7 +20,7 @@ const StyledItem = styled.button`
     box-shadow: 0px 0px 11px 1px rgba(0, 0, 0, 0.6);
     transition: 350ms ease;
     outline: 0;
-    cursor: pointer;
+    cursor: ${props => props.drag ? 'move' : 'pointer'};
     ${props => props.selected && `
         box-shadow: 0px 0px 9px 5px rgba(36, 242, 242, 1);
     `}
@@ -41,6 +41,7 @@ export default class GameItem extends Component {
     static propTypes = {
         game: PropTypes.object.isRequired,
         selected: PropTypes.bool.isRequired,
+        drag: PropTypes.bool,
         onClick: PropTypes.func.isRequired,
         onClickRemove: PropTypes.func,
     };
@@ -54,13 +55,13 @@ export default class GameItem extends Component {
     };
 
     render() {
-        const { game } = this.props;
+        const { game, drag } = this.props;
         return (
             <StyledWrapper>
                 {this.props.onClickRemove
                     ? <GameDeleteButton onClick={this.handleClickRemove}>✖</GameDeleteButton>
                     : null}
-                <StyledItem type="button" selected={this.props.selected} onClick={this.handleClick}>
+                <StyledItem drag={drag} type="button" selected={this.props.selected} onClick={this.handleClick}>
                     <StyledPoster game={game} />
                 </StyledItem>
             </StyledWrapper>
