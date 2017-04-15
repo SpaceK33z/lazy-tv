@@ -11,3 +11,9 @@ Then I found **Steam Big Picture** mode. It kinda replicates the PS4 UI, but som
 -TODO cool gif-
 
 Note that this is still in early stages, but if you are interested and want to share your ideas, please create a ticket.
+
+## Credits
+
+Built by Kees Kluskens
+
+Icon: "Television" by Piero Borgo from the Noun Project

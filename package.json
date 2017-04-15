@@ -37,7 +37,14 @@
     "asarUnpack": ["public/*.exe"],
     "compression": "store",
     "mac": {
-      "category": "public.app-category.productivity"
+      "category": "public.app-category.productivity",
+      "icon": "images/icon.icns"
+    },
+    "mac": {
+      "icon": "images/icon.icns"
+    },
+    "win": {
+      "icon": "images/icon.ico"
     }
   },
   "scripts": {
