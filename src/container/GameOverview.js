@@ -9,6 +9,8 @@ import GameItem from '../component/GameItem';
 import keydown, { Keys } from 'react-keydown';
 import { getCurrentWindow } from '../electron';
 
+const myWindow = getCurrentWindow();
+
 const GAME_ITEM_WIDTH = 410;
 const SCROLL_ANIMATION_MS = 300;
 const AXIS_DEBOUNCE_MS = 100;
@@ -103,7 +105,6 @@ export default class GameOverview extends Component {
 
     componentDidMount() {
         this.gpInstance = new Gamepad();
-        const myWindow = getCurrentWindow();
         myWindow.on('focus', () => {
             this.gpInstance.resume();
         });
@@ -143,6 +144,8 @@ export default class GameOverview extends Component {
             this.gpInstance.destroy();
             this.gpInstance = null;
         }
+        myWindow.off('focus');
+        myWindow.off('blur');
     }
 
     renderGame = game => {
