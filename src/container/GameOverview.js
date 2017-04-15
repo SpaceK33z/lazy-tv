@@ -6,6 +6,7 @@ import scrollToWithAnimation from 'scrollto-with-animation';
 import Gamepad from '../patch/gamepad';
 import GameList from '../component/GameList';
 import GameItem from '../component/GameItem';
+import NoGamesWarning from '../component/NoGamesWarning';
 import keydown, { Keys } from 'react-keydown';
 import { getCurrentWindow } from '../electron';
 
@@ -172,7 +173,7 @@ export default class GameOverview extends Component {
                 </GameList>
             );
         } else {
-            return <p>You have no games yet!</p>;
+            return <NoGamesWarning />;
         }
     }
 }

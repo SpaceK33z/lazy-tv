@@ -5,6 +5,7 @@ const ButtonIcon = styled.button`
     background: transparent;
     width: ${props => props.width || '50px'};
     height: ${props => props.height || '50px'};
+    margin-right: 20px;
     border: 0;
     display: block;
     padding: 0;

@@ -23,7 +23,6 @@ const RightSide = styled.div`
     display: flex;
     flex: 1;
     flex-direction: column;
-    margin-left: 20px;
 `;
 
 const FormButtons = styled.div`

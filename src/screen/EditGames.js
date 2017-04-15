@@ -3,13 +3,13 @@ import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import ActionMenu from '../component/ActionMenu';
 import FlexColumn from '../component/FlexColumn';
-import GameOverview from '../container/GameOverview';
-import GamePadOverview from '../container/GamePadOverview';
-import EditGamesButton from '../container/EditGamesButton';
+import GameEditOverview from '../container/GameEditOverview';
+import AddGameButton from '../container/AddGameButton';
+import EditDoneButton from '../container/EditDoneButton';
 import Center from '../component/Center';
 
 @observer
-export default class HomeScreen extends Component {
+export default class EditGamesScreen extends Component {
     static propTypes = {
         store: PropTypes.object.isRequired,
     };
@@ -18,12 +18,12 @@ export default class HomeScreen extends Component {
         const { store } = this.props;
         return (
             <FlexColumn>
-                <ActionMenu>
-                    <EditGamesButton store={store} />
-                    <GamePadOverview store={store} />
+                <ActionMenu compact>
+                    <AddGameButton store={store} />
+                    <EditDoneButton store={store} />
                 </ActionMenu>
                 <Center>
-                    <GameOverview store={store} />
+                    <GameEditOverview store={store} />
                 </Center>
             </FlexColumn>
         );

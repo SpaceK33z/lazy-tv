@@ -5,6 +5,7 @@ import FullBackground from '../component/FullBackground';
 import FlexColumn from '../component/FlexColumn';
 import Home from '../screen/Home';
 import AddGame from '../screen/AddGame';
+import EditGames from '../screen/EditGames';
 
 @observer
 export default class App extends Component {
@@ -19,6 +20,9 @@ export default class App extends Component {
         switch (view) {
             case 'home':
                 content = <Home store={store} />;
+                break;
+            case 'editGames':
+                content = <EditGames store={store} />;
                 break;
             case 'addGame':
                 content = <AddGame store={store} />;
