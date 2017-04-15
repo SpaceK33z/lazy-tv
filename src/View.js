@@ -1,8 +1,8 @@
 import { observable, computed } from 'mobx';
 import Gamepad from './patch/gamepad';
 import Config from './Config';
-import { fs, app, path, shell, childProcess } from './electron';
-import csvParse from 'csv-parse/lib/sync';
+import { fs, app, path, shell } from './electron';
+import { startGame }  from './launchManager';
 
 const DEFAULT_CONFIG = {
     games: [],
@@ -25,12 +25,12 @@ export default class ViewStore {
         }
         this.gpInstance = new Gamepad();
 
-        this.gpInstance.on('connect', (e) => {
+        this.gpInstance.on('connect', e => {
             this.gamepads.push(e);
         });
 
-        this.gpInstance.on('disconnect', (e) => {
-            const gamepad = this.gamepads.find((gp) => gp.index === e.index);
+        this.gpInstance.on('disconnect', e => {
+            const gamepad = this.gamepads.find(gp => gp.index === e.index);
             if (gamepad) {
                 this.gamepads.remove(gamepad);
             }
@@ -56,32 +56,7 @@ export default class ViewStore {
             // TODO: Maybe show an error notification here one day.
             return;
         }
-        const programSplit = program.split('\\');
-        const programExe = programSplit[programSplit.length-1];
-        const programName = programExe.replace('.exe', '');
-        childProcess.exec(`tasklist /fo:csv`, (err, stdout, stderr) => {
-            if (err) console.error(err);
-            const output = csvParse(stdout, { columns: true });
-            const activeProgram = output.find((data) => {
-                return data['Image Name'] === programExe;
-            });
-            if (activeProgram) {
-                const programId = activeProgram['PID'];
-                console.log('Game already started, trying to focus it...', programName, activeProgram);
-                childProcess.exec(`.\\public\\activate-window-by-pid.exe ${programId}`, (err, stdout,stderr) => {
-                    if (err) console.error(err);
-                });
-                // childProcess.exec(`powershell.exe "./public/set-active-window.ps1 -process \\"${programId}\\""`, (err, stdout,stderr) => {
-                //     if (err) console.error(err);
-                // });
-                // childProcess.exec(`echo (new ActiveXObject("WScript.Shell")).AppActivate("${programTitle}"); > focus.js && cscript //nologo focus.js && del focus.js`, (err, stdout,stderr) => {
-                //     if (err) console.error(err);
-                // });
-            } else {
-                console.log('Game seems not active, starting...');
-                childProcess.spawn('cmd', ['/c', 'start', '""', program]);
-            }
-        });
+        startGame(program);
     }
 
     addGame(game, poster) {
@@ -91,9 +66,9 @@ export default class ViewStore {
             if (poster) {
                 const folderPath = path.join(userDataPath, 'posters');
                 const filePath = path.join(folderPath, `${game.title}.png`);
-                fs.mkdir(folderPath, (err) => {
+                fs.mkdir(folderPath, err => {
                     if (err && err.code !== 'EEXIST') throw err;
-                    fs.writeFile(filePath, poster.toPng(), (err) => {
+                    fs.writeFile(filePath, poster.toPng(), err => {
                         if (err) throw err;
                         resolve();
                     });
