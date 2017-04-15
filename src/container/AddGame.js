@@ -56,7 +56,7 @@ export default class AddGame extends Component {
         this.submitting = true;
         this.props.store.addGame(this.game, this.image)
         .then(() => {
-            this.props.store.currentView = 'home';
+            this.props.store.currentView = 'editGames';
         })
         .catch(() => {
             this.submitting = false;
@@ -64,7 +64,7 @@ export default class AddGame extends Component {
     };
 
     handleCancel = () => {
-        this.props.store.currentView = 'home';
+        this.props.store.currentView = 'editGames';
     };
 
     handleImageChange = image => {
