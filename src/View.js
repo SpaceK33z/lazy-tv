@@ -13,6 +13,7 @@ export default class ViewStore {
     @observable games = [];
     @observable selectedGame = null;
     @observable gamepads = [];
+    @observable notifications = [];
     @observable currentView = 'home';
     gpInstance = null;
     config = null;
@@ -56,6 +57,11 @@ export default class ViewStore {
             // TODO: Maybe show an error notification here one day.
             return;
         }
+        this.notifications.push({
+            message: 'Launching game…',
+            key: 'startGame',
+            dismissAfter: 4000,
+        });
         startGame(program);
     }
 

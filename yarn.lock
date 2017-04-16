@@ -5318,6 +5318,10 @@ react-keydown@^1.7.0:
   version "1.7.0"
   resolved "https://registry.yarnpkg.com/react-keydown/-/react-keydown-1.7.0.tgz#52e9b0d1e55ea2dc78d6c760478c63dc36198ffd"
 
+react-notification@^6.6.0:
+  version "6.6.0"
+  resolved "https://registry.yarnpkg.com/react-notification/-/react-notification-6.6.0.tgz#791302e1522b0d2529daaab3b80839bcafd28fad"
+
 react-sortable-hoc@^0.6.2:
   version "0.6.2"
   resolved "https://registry.yarnpkg.com/react-sortable-hoc/-/react-sortable-hoc-0.6.2.tgz#9f0b5aea0a496de1ecb9e1da97d8d2dbbed0905c"

@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import FullBackground from '../component/FullBackground';
+import NotificationArea from '../component/NotificationArea';
 import FlexColumn from '../component/FlexColumn';
 import Home from '../screen/Home';
 import AddGame from '../screen/AddGame';
@@ -35,6 +36,7 @@ export default class App extends Component {
             <FlexColumn>
                 <FullBackground />
                 {content}
+                <NotificationArea store={store} />
             </FlexColumn>
         );
     }
