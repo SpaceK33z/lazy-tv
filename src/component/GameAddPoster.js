@@ -27,10 +27,6 @@ export default class GameAddPoster extends Component {
         image: PropTypes.object,
     };
 
-    static defaultProps = {
-        value: '',
-    };
-
     handleChange = values => {
         const value = values && values.length ? values[0] : null;
         let image = null;
