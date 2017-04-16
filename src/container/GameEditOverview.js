@@ -13,7 +13,7 @@ const SortableList = SortableContainer(({ items, handleGameClick, handleGameRemo
         <GameList>
             {items.map((game, index) => (
                 <SortableItem
-                    key={game.title}
+                    key={`${game.title}-${game.program}`}
                     index={index}
                     game={game}
                     onClick={handleGameClick}

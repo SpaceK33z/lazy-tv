@@ -140,7 +140,7 @@ export default class GameOverview extends Component {
         const selectedGame = this.props.store.selectedGame;
         return (
             <GameItem
-                key={game.title}
+                key={`${game.title}-${game.program}`}
                 game={game}
                 selected={game === selectedGame}
                 onClick={this.handleGameClick}
