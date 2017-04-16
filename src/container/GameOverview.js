@@ -9,6 +9,7 @@ import GameItem from '../component/GameItem';
 import NoGamesWarning from '../component/NoGamesWarning';
 import keydown, { Keys } from 'react-keydown';
 import { getCurrentWindow } from '../electron';
+import navigationSound from '../asset/navigationSound.mp3';
 
 const myWindow = getCurrentWindow();
 
@@ -33,6 +34,7 @@ export default class GameOverview extends Component {
             const { store } = this.props;
             store.changeGame(direction);
             this.scrollToGame();
+            this.playSoundEffect();
         },
         SCROLL_ANIMATION_MS,
         { leading: true }
@@ -95,6 +97,12 @@ export default class GameOverview extends Component {
     pauseGpEvents = () => {
         this.gpInstance.pause();
     };
+
+    playSoundEffect() {
+        const audio = new Audio(navigationSound);
+        audio.volume = .15;
+        audio.play();
+    }
 
     componentDidMount() {
         this.gpInstance = new Gamepad();

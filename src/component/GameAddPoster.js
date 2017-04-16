@@ -4,7 +4,7 @@ import { observer } from 'mobx-react';
 import styled from 'styled-components';
 import { dialog, app, nativeImage } from '../electron';
 import ButtonIcon from '../component/ButtonIcon';
-import EmptyPosterImg from '../image/empty-poster.png';
+import EmptyPosterImg from '../asset/empty-poster.png';
 
 const EXTENSION_FILTERS = [
     {
