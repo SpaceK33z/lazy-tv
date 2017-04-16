@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import ActionMenu from '../component/ActionMenu';
 import FlexColumn from '../component/FlexColumn';
+import Clock from '../component/Clock';
 import GameOverview from '../container/GameOverview';
 import GamePadOverview from '../container/GamePadOverview';
 import EditGamesButton from '../container/EditGamesButton';
@@ -25,6 +26,7 @@ export default class HomeScreen extends Component {
                 <Center>
                     <GameOverview store={store} />
                 </Center>
+                <Clock />
             </FlexColumn>
         );
     }
