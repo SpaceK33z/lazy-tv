@@ -17,7 +17,7 @@ const SortableList = SortableContainer(({ items, handleGameClick, handleGameRemo
                     index={index}
                     game={game}
                     onClick={handleGameClick}
-                    onClickRemove={handleGameClick}
+                    onClickRemove={handleGameRemove}
                 />
             ))}
         </GameList>
