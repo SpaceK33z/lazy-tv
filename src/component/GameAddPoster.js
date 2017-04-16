@@ -3,8 +3,7 @@ import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import styled from 'styled-components';
 import { dialog, app, nativeImage } from '../electron';
-import ButtonIcon from '../component/ButtonIcon';
-import EmptyPosterImg from '../asset/empty-poster.png';
+import Button from '../component/Button';
 
 const EXTENSION_FILTERS = [
     {
@@ -18,6 +17,15 @@ const DEFAULT_PATH = app.getPath('downloads');
 const Image = styled.img`
     width: 400px;
     height: 600px;
+    margin-right: 20px;
+    margin-top: 20px;
+`;
+
+const Wrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    width: 420px;
+    min-height: 600px;
 `;
 
 @observer
@@ -48,12 +56,18 @@ export default class GameAddPoster extends Component {
         );
     };
 
+    renderImage = () => {
+        const { image } = this.props;
+        return <Image src={image.toDataURL()} />;
+    };
+
     render() {
         const { image } = this.props;
         return (
-            <ButtonIcon type="button" onClick={this.handleClick} width="auto" height="auto">
-                <Image src={image ? image.toDataURL() : EmptyPosterImg} />
-            </ButtonIcon>
+            <Wrapper>
+                <Button onClick={this.handleClick}>Upload image</Button>
+                {image ? this.renderImage() : null}
+            </Wrapper>
         );
     }
 }
