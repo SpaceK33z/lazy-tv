@@ -18,7 +18,8 @@ const StyledList = styled.div`
 const ListWrapper = styled.div`
     display: flex;
     padding: 0 100px;
-`
+    align-items: center;
+`;
 
 @observer
 export default class GameList extends Component {
