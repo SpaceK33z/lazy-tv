@@ -8,9 +8,9 @@ import { SortableContainer, SortableElement, arrayMove } from 'react-sortable-ho
 
 const SortableItem = SortableElement(props => <GameItem {...props} selected={false} drag />);
 
-const SortableList = SortableContainer(({ items, handleGameClick, handleGameRemove }) => {
+const SortableList = SortableContainer(({ items, handleGameClick, handleGameRemove, innerRef }) => {
     return (
-        <GameList>
+        <GameList innerRef={innerRef}>
             {items.map((game, index) => (
                 <SortableItem
                     key={game.id}
@@ -44,11 +44,29 @@ export default class GameEditOverview extends Component {
         store.saveGamesToConfig();
     };
 
+    setListRef = (ref) => {
+        this.listRef = ref;
+    };
+
+    componentDidMount() {
+        // Poorly implemented horizontal scroll when using vertical scroll wheel.
+        // Preferably I'd let a package handle this, but I could only find jQuery implementations.
+        this.listRef.addEventListener('mousewheel', (e) => {
+            if (e.deltaY > 0) {
+                this.listRef.scrollLeft += e.deltaY;
+            }
+            if (e.deltaY < 0) {
+                this.listRef.scrollLeft += e.deltaY;
+            }
+        }, false);
+    }
+
     render() {
         const { store } = this.props;
         if (store.games.length) {
             return (
                 <SortableList
+                    innerRef={this.setListRef}
                     items={store.games}
                     axis="x"
                     lockAxis="x"
