@@ -3,6 +3,7 @@ import Gamepad from './patch/gamepad';
 import Config from './Config';
 import { fs, app, path, shell } from './electron';
 import { startGame }  from './launchManager';
+import uuid from 'uuid/v4';
 
 const DEFAULT_CONFIG = {
     games: [],
@@ -67,11 +68,12 @@ export default class ViewStore {
 
     addGame(game, poster) {
         return new Promise((resolve, reject) => {
-            this.games.push(game);
+            const newGame = Object.assign({}, game, { id: uuid() });
+            this.games.push(newGame);
             this.saveGamesToConfig();
             if (poster) {
                 const folderPath = path.join(userDataPath, 'posters');
-                const filePath = path.join(folderPath, `${game.title}.png`);
+                const filePath = path.join(folderPath, `${newGame.id}.png`);
                 fs.mkdir(folderPath, err => {
                     if (err && err.code !== 'EEXIST') throw err;
                     fs.writeFile(filePath, poster.toPng(), err => {
@@ -86,7 +88,7 @@ export default class ViewStore {
     removeGame(game) {
         this.games.remove(game);
         this.saveGamesToConfig();
-        const filePath = path.join(userDataPath, 'posters', `${game.title}.png`);
+        const filePath = path.join(userDataPath, 'posters', `${game.id}.png`);
         shell.moveItemToTrash(filePath);
     }
 

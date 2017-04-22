@@ -18,7 +18,7 @@ export default class GameItemPoster extends Component {
     findPoster() {
         // shit code haha
         const userDataPath = app.getPath('userData');
-        const fileName = `${this.props.game.title}`;
+        const fileName = `${this.props.game.id}`;
         const filePath = path.join(userDataPath, 'posters', fileName);
 
         const pngImage = nativeImage.createFromPath(`${filePath}.png`);
@@ -35,6 +35,6 @@ export default class GameItemPoster extends Component {
     render() {
         let localPath = this.findPoster();
 
-        return <img src={localPath ? `file://${localPath}` : ''} alt={this.props.game.title} className={this.props.className} />;
+        return <img src={localPath ? `file://${localPath}` : ''} alt={this.props.game.program} className={this.props.className} />;
     }
 }

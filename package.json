@@ -34,7 +34,8 @@
     "react-test-renderer": "^15.5.4",
     "rimraf": "^2.6.1",
     "scrollto-with-animation": "^4.5.2",
-    "styled-components": "^1.4.5"
+    "styled-components": "^1.4.5",
+    "uuid": "^3.0.1"
   },
   "build": {
     "appId": "nl.webduck.lazy-tv",

@@ -79,7 +79,7 @@ export default class GameAddPoster extends Component {
         const { image } = this.props;
         return (
             <Wrapper>
-                <Button onClick={this.handleClick}>Upload image</Button>
+                <Button type="button" onClick={this.handleClick}>Upload image</Button>
                 {image ? this.renderImage() : null}
             </Wrapper>
         );

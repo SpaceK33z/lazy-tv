@@ -51,7 +51,6 @@ export default class AddGame extends Component {
     };
 
     @observable game = {
-        title: '',
         program: '',
     };
 
@@ -64,7 +63,7 @@ export default class AddGame extends Component {
     };
 
     handleSubmit = () => {
-        if (!this.game.title || !this.game.program) {
+        if (!this.game.program) {
             return;
         }
         this.submitting = true;
@@ -107,15 +106,6 @@ export default class AddGame extends Component {
                         onImageChange={this.handleImageChange}
                     />
                     <RightSide>
-                        <FormField label="Title">
-                            <InputText
-                                name="title"
-                                value={this.game.title}
-                                onChange={this.handleInput}
-                                placeholder="Choose a title"
-                                autoFocus
-                            />
-                        </FormField>
                         <FormField label="Program">
                             <InputExecutable
                                 name="program"
