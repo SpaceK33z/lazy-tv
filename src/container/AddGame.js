@@ -63,7 +63,11 @@ export default class AddGame extends Component {
     };
 
     handleSubmit = () => {
-        if (!this.game.program) {
+        if (!this.image || !this.game.program) {
+            this.props.store.notifications.push({
+                message: 'Add a poster and fill in the program.',
+                key: 'addGameFail',
+            });
             return;
         }
         this.submitting = true;
