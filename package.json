@@ -8,12 +8,12 @@
   "main": "src/electron-starter.js",
   "devDependencies": {
     "cross-env": "^4.0.0",
-    "electron": "^1.6.2",
-    "electron-builder": "^16.8.4",
+    "electron": "^1.6.5",
+    "electron-builder": "^17.0.3",
     "eslint": "^3.19.0",
     "eslint-config-codeyellow": "^4.0.0",
     "npm-run-all": "^4.0.2",
-    "react-cy-scripts": "0.10.1",
+    "react-cy-scripts": "0.10.2",
     "wait-on": "^2.0.2"
   },
   "dependencies": {
@@ -29,7 +29,7 @@
     "react-dom": "^15.5.4",
     "react-image-crop": "^2.0.3",
     "react-keydown": "^1.7.0",
-    "react-notification": "^6.6.0",
+    "react-notification": "^6.6.1",
     "react-sortable-hoc": "^0.6.2",
     "react-test-renderer": "^15.5.4",
     "rimraf": "^2.6.1",
