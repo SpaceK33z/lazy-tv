@@ -216,7 +216,10 @@
             keys.forEach(function (key) {
 
                 if (e.type === 'keydown' && !self._events.keyboard[key]) {
-
+                    // HACKed in by Kees:
+                    // When we're handling events ourselves, we don't want the default behavior to occur.
+                    e.preventDefault();
+                    // end HACK
                     self._events.keyboard[key] = {
                         pressed: true,
                         hold: false,
