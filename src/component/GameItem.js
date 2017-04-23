@@ -18,7 +18,7 @@ const StyledItem = styled.button`
     padding: 0;
     margin: 0;
     box-shadow: 0px 0px 11px 1px rgba(0, 0, 0, 0.6);
-    transition: 350ms ease;
+    transition: 280ms ease;
     outline: 0;
     cursor: ${props => props.drag ? 'move' : 'pointer'};
     width: 300px;
