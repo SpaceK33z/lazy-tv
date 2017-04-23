@@ -11,8 +11,6 @@ import keydown, { Keys } from 'react-keydown';
 import { getCurrentWindow } from '../electron';
 import navigationSound from '../asset/navigationSound.mp3';
 
-const myWindow = getCurrentWindow();
-
 const GAME_ITEM_WIDTH = 316;
 const SCROLL_ANIMATION_MS = 300;
 const AXIS_DEBOUNCE_MS = 100;
@@ -106,8 +104,8 @@ export default class GameOverview extends Component {
 
     componentDidMount() {
         this.gpInstance = new Gamepad();
-        myWindow.on('focus', this.resumeGpEvents);
-        myWindow.on('blur', this.pauseGpEvents);
+        getCurrentWindow().on('focus', this.resumeGpEvents);
+        getCurrentWindow().on('blur', this.pauseGpEvents);
 
         this.gpInstance.on('hold', 'stick_axis_left', e => {
             const [x] = e.value;
@@ -140,8 +138,8 @@ export default class GameOverview extends Component {
             this.gpInstance.destroy();
             this.gpInstance = null;
         }
-        myWindow.removeListener('focus', this.resumeGpEvents);
-        myWindow.removeListener('blur', this.pauseGpEvents);
+        getCurrentWindow().removeListener('focus', this.resumeGpEvents);
+        getCurrentWindow().removeListener('blur', this.pauseGpEvents);
     }
 
     renderGame = game => {
