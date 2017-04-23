@@ -7,7 +7,7 @@ import GameItemPoster from './GameItemPoster';
 import GameDeleteButton from './GameDeleteButton';
 
 const StyledWrapper = styled.div`
-    margin: 0 .5em;
+    margin: 0 8px;
     position: relative;
 `;
 

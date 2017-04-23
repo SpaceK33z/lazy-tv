@@ -13,7 +13,7 @@ import navigationSound from '../asset/navigationSound.mp3';
 
 const myWindow = getCurrentWindow();
 
-const GAME_ITEM_WIDTH = 410;
+const GAME_ITEM_WIDTH = 316;
 const SCROLL_ANIMATION_MS = 300;
 const AXIS_DEBOUNCE_MS = 100;
 const AXIS_DEBOUNCE_WAIT_MS = 200;
