@@ -7,7 +7,6 @@ import Gamepad from '../patch/gamepad';
 import GameList from '../component/GameList';
 import GameItem from '../component/GameItem';
 import NoGamesWarning from '../component/NoGamesWarning';
-import keydown, { Keys } from 'react-keydown';
 import { getCurrentWindow } from '../electron';
 import navigationSound from '../asset/navigationSound.mp3';
 
@@ -17,6 +16,18 @@ const AXIS_DEBOUNCE_MS = 100;
 const AXIS_DEBOUNCE_WAIT_MS = 200;
 const AXIS_MOVE_TRESHOLD = 0.75;
 const GAME_ACTION_DEBOUNCE_MS = 1000;
+
+// http://keycode.info/
+const GAMEPAD_KEYBOARD_MAPPING = {
+    button_1: [32, 13],
+    button_2: [8, 46],
+    d_pad_up: [38, 87],
+    d_pad_down: [40, 83],
+    d_pad_left: [37, 65],
+    d_pad_right: [39, 68],
+};
+
+// TODO: This component does way too much at the moment...
 
 @observer
 export default class GameOverview extends Component {
@@ -72,12 +83,6 @@ export default class GameOverview extends Component {
         { maxWait: AXIS_DEBOUNCE_WAIT_MS, immediate: true }
     );
 
-    @keydown(Keys.enter)
-    startGameFromEnter(e) {
-        e.preventDefault();
-        this.startGame();
-    }
-
     startGame = debounce(this._startGame, GAME_ACTION_DEBOUNCE_MS, {
         leading: true,
         trailing: false,
@@ -86,6 +91,16 @@ export default class GameOverview extends Component {
     _startGame() {
         console.log('START game');
         this.props.store.openGame();
+    }
+
+    stopGame = debounce(this._stopGame, GAME_ACTION_DEBOUNCE_MS, {
+        leading: true,
+        trailing: false,
+    });
+
+    _stopGame() {
+        console.log('STOP game');
+        this.props.store.stopGame();
     }
 
     resumeGpEvents = () => {
@@ -98,12 +113,13 @@ export default class GameOverview extends Component {
 
     playSoundEffect() {
         const audio = new Audio(navigationSound);
-        audio.volume = .15;
+        audio.volume = 0.15;
         audio.play();
     }
 
     componentDidMount() {
         this.gpInstance = new Gamepad();
+        this.gpInstance.setCustomMapping('keyboard', GAMEPAD_KEYBOARD_MAPPING);
         getCurrentWindow().on('focus', this.resumeGpEvents);
         getCurrentWindow().on('blur', this.pauseGpEvents);
 
@@ -130,6 +146,10 @@ export default class GameOverview extends Component {
         // And this also reacts on SPACE
         this.gpInstance.on('press', 'button_1', () => {
             this.startGame();
+        });
+
+        this.gpInstance.on('press', 'button_2', () => {
+            this.stopGame();
         });
     }
 

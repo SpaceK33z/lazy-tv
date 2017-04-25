@@ -33,7 +33,6 @@ export default class TaskManager {
 
     checkTasks() {
         if (this.checkRunning || process.platform !== 'win32') {
-            console.log('prevented running')
             return Promise.resolve();
         }
         this.checkRunning = true;
@@ -83,5 +82,13 @@ export default class TaskManager {
                 childProcess.spawn('cmd', ['/c', 'start', '""', game.program]);
             }
         });
+    }
+
+    stop(game) {
+        if (process.platform !== 'win32') {
+            // TODO
+            return;
+        }
+        childProcess.exec(`taskkill /pid ${game.pid}`);
     }
 }

@@ -5252,10 +5252,6 @@ react-image-crop@^2.0.3:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/react-image-crop/-/react-image-crop-2.0.3.tgz#81dcbaecc39553f0ac93e9d0e748cdc3216b2cf0"
 
-react-keydown@^1.7.0:
-  version "1.7.0"
-  resolved "https://registry.yarnpkg.com/react-keydown/-/react-keydown-1.7.0.tgz#52e9b0d1e55ea2dc78d6c760478c63dc36198ffd"
-
 react-notification@^6.6.1:
   version "6.6.1"
   resolved "https://registry.yarnpkg.com/react-notification/-/react-notification-6.6.1.tgz#437036ecf37dec6516d159164a22773b8a92d774"

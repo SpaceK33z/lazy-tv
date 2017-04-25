@@ -69,6 +69,15 @@ export default class ViewStore {
         this.taskManager.start(this.selectedGame);
     }
 
+    stopGame() {
+        this.addNotification({
+            message: 'Stopping game…',
+            key: 'stopGame',
+            dismissAfter: 1000,
+        });
+        this.taskManager.stop(this.selectedGame);
+    }
+
     addGame(game, poster) {
         return new Promise((resolve, reject) => {
             const newGame = Object.assign({}, game, { id: uuid() });
