@@ -1,8 +1,9 @@
 import { observable, computed } from 'mobx';
+import Game from './Game';
 import Gamepad from './patch/gamepad';
 import Config from './Config';
 import { fs, app, path, shell } from './electron';
-import { startGame }  from './launchManager';
+import TaskManager from './TaskManager';
 import uuid from 'uuid/v4';
 
 const DEFAULT_CONFIG = {
@@ -16,12 +17,14 @@ export default class ViewStore {
     @observable gamepads = [];
     @observable notifications = [];
     @observable currentView = 'home';
+    @observable taskManager = new TaskManager();
     gpInstance = null;
     config = null;
 
     constructor() {
         this.config = new Config({ configName: 'config', defaults: DEFAULT_CONFIG });
-        this.games = this.config.get('games');
+        this.games = this.config.get('games').map(game => new Game(game));
+        this.taskManager.setGames(this.games);
         if (this.games.length) {
             this.selectedGame = this.games[0];
         }
@@ -63,7 +66,7 @@ export default class ViewStore {
             key: 'startGame',
             dismissAfter: 4000,
         });
-        startGame(program);
+        this.taskManager.start(this.selectedGame);
     }
 
     addGame(game, poster) {
@@ -93,6 +96,6 @@ export default class ViewStore {
     }
 
     saveGamesToConfig() {
-        this.config.set('games', this.games);
+        this.config.set('games', this.games.map(game => game.toStorage()));
     }
 }

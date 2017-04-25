@@ -20,12 +20,14 @@ const StyledItem = styled.button`
     box-shadow: 0px 0px 11px 1px rgba(0, 0, 0, 0.6);
     transition: 280ms ease;
     outline: 0;
-    cursor: ${props => props.drag ? 'move' : 'pointer'};
+    cursor: ${props => (props.drag ? 'move' : 'pointer')};
     width: 300px;
     max-height: 600px;
     ${props => props.selected && `
-        box-shadow: 0px 0px 18px 10px rgba(36, 242, 242, 1);
         width: 400px;
+    `}
+    ${props => props.running && `
+        box-shadow: 0px 0px 18px 10px rgba(36, 242, 242, 1);
     `}
 `;
 
@@ -63,7 +65,13 @@ export default class GameItem extends Component {
                 {this.props.onClickRemove
                     ? <GameDeleteButton onClick={this.handleClickRemove}>✖</GameDeleteButton>
                     : null}
-                <StyledItem drag={drag} type="button" selected={this.props.selected} onClick={this.handleClick}>
+                <StyledItem
+                    drag={drag}
+                    type="button"
+                    selected={this.props.selected}
+                    running={!!game.isRunning}
+                    onClick={this.handleClick}
+                >
                     <StyledPoster game={game} />
                 </StyledItem>
             </StyledWrapper>
