@@ -3,13 +3,13 @@ import React, { Component } from 'react';
 import { observable, action } from 'mobx';
 import { observer } from 'mobx-react';
 import FormField from '../component/FormField';
-import InputText from '../component/InputText';
 import InputExecutable from '../component/InputExecutable';
 import Button from '../component/Button';
 import GameAddPoster from '../component/GameAddPoster';
 import Form from '../component/Form';
 import imageCropper from '../patch/imageCropper';
 import { nativeImage } from '../electron';
+import uuid from 'uuid/v4';
 
 import styled from 'styled-components';
 
@@ -64,7 +64,7 @@ export default class AddGame extends Component {
 
     handleSubmit = () => {
         if (!this.image || !this.game.program) {
-            this.props.store.notifications.push({
+            this.props.store.addNotification({
                 message: 'Add a poster and fill in the program.',
                 key: 'addGameFail',
             });

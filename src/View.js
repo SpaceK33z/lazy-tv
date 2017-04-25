@@ -61,7 +61,7 @@ export default class ViewStore {
             // TODO: Maybe show an error notification here one day.
             return;
         }
-        this.notifications.push({
+        this.addNotification({
             message: 'Launching game…',
             key: 'startGame',
             dismissAfter: 4000,
@@ -97,5 +97,15 @@ export default class ViewStore {
 
     saveGamesToConfig() {
         this.config.set('games', this.games.map(game => game.toStorage()));
+    }
+
+    addNotification(msg) {
+        // Notifications with the same key have the same contents, so we don't want to display them twice.
+        // Existing ones are removed so the notification stays longer on the screen.
+        const existingMsg = this.notifications.find(a => a.key === msg.key);
+        if (existingMsg) {
+            this.notifications.remove(existingMsg);
+        }
+        this.notifications.push(msg);
     }
 }
