@@ -12,3 +12,7 @@ const ActionMenu = styled.div`
 `;
 
 export default ActionMenu;
+
+export const ActionMenuGroup = styled.div`
+    display: flex;
+`;
