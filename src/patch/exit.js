@@ -16,7 +16,7 @@ const unsupported = () => {
 
 export function shutdown() {
     if (process.platform === 'win32') {
-        return exec('Shutdown.exe -s');
+        return exec('Shutdown.exe -s -t 00');
     }
     if (process.platform === 'darwin') {
         return exec(`osascript -e 'tell app "System Events" to shut down'`);
@@ -43,7 +43,7 @@ export function sleep() {
 
 export function restart() {
     if (process.platform === 'win32') {
-        return exec('Shutdown.exe -r');
+        return exec('Shutdown.exe -r -t 00');
     }
     if (process.platform === 'darwin') {
         return exec(`osascript -e 'tell app "System Events" to restart'`);
