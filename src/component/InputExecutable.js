@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import styled from 'styled-components';
-import { dialog, process } from '../electron';
+import { remote } from 'electron';
 import { StyledInput as StyledTextInput } from './InputText';
 
 const StyledInput = styled(StyledTextInput)`
@@ -35,7 +35,7 @@ export default class InputExecutable extends Component {
     };
 
     handleClick = e => {
-        dialog.showOpenDialog({
+        remote.dialog.showOpenDialog({
             filters: EXTENSION_FILTERS,
             defaultPath: DEFAULT_PATH,
             properties: ['openFile'],

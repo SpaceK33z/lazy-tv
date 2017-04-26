@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import path from 'path';
-import { app, nativeImage } from '../electron';
+import { remote, nativeImage } from 'electron';
 
 @observer
 export default class GameItemPoster extends Component {
@@ -17,7 +17,7 @@ export default class GameItemPoster extends Component {
 
     findPoster() {
         // shit code haha
-        const userDataPath = app.getPath('userData');
+        const userDataPath = remote.app.getPath('userData');
         const fileName = `${this.props.game.id}`;
         const filePath = path.join(userDataPath, 'posters', fileName);
 

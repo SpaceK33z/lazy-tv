@@ -2,14 +2,16 @@ import { observable, computed } from 'mobx';
 import Game from './Game';
 import Gamepad from './patch/gamepad';
 import Config from './Config';
-import { fs, app, path, shell } from './electron';
+import { remote, shell } from 'electron';
+import fs from 'fs';
+import path from 'path';
 import TaskManager from './TaskManager';
 import uuid from 'uuid/v4';
 
 const DEFAULT_CONFIG = {
     games: [],
 };
-const userDataPath = app.getPath('userData');
+const userDataPath = remote.app.getPath('userData');
 
 export default class ViewStore {
     @observable games = [];

@@ -1,9 +1,10 @@
-import { fs, app } from './electron';
+import { remote } from 'electron';
+import fs from 'fs';
 import path from 'path';
 
 export default class Config {
     constructor(opts) {
-        const userDataPath = app.getPath('userData');
+        const userDataPath = remote.app.getPath('userData');
         this.path = path.join(userDataPath, opts.configName + '.json');
         this.data = parseDataFile(this.path, opts.defaults);
     }

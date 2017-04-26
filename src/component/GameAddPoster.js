@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import styled from 'styled-components';
-import { dialog, app, nativeImage } from '../electron';
+import { remote, nativeImage } from 'electron';
 import Button from '../component/Button';
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
@@ -14,7 +14,7 @@ const EXTENSION_FILTERS = [
     },
 ];
 
-const DEFAULT_PATH = app.getPath('downloads');
+const DEFAULT_PATH = remote.app.getPath('downloads');
 
 const CropWrapper = styled.div`
     width: 400px;
@@ -47,7 +47,7 @@ export default class GameAddPoster extends Component {
     };
 
     handleClick = e => {
-        dialog.showOpenDialog(
+        remote.dialog.showOpenDialog(
             {
                 filters: EXTENSION_FILTERS,
                 defaultPath: DEFAULT_PATH,

@@ -8,8 +8,7 @@ import Button from '../component/Button';
 import GameAddPoster from '../component/GameAddPoster';
 import Form from '../component/Form';
 import imageCropper from '../patch/imageCropper';
-import { nativeImage } from '../electron';
-import uuid from 'uuid/v4';
+import { nativeImage } from 'electron';
 
 import styled from 'styled-components';
 

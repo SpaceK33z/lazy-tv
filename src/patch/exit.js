@@ -1,4 +1,4 @@
-import { childProcess, process } from '../electron';
+import { exec } from 'child_process';
 
 // TODO: One day I want to turn this into a package.
 
@@ -9,8 +9,6 @@ import { childProcess, process } from '../electron';
 // https://apple.stackexchange.com/questions/103571/using-the-terminal-command-to-shutdown-restart-and-sleep-my-mac
 // For Linux:
 // https://askubuntu.com/questions/168879/shutdown-from-terminal-without-entering-password
-
-const exec = childProcess.exec;
 
 const unsupported = () => {
     throw new Error(`Unsupported platform: ${process.platform}`);

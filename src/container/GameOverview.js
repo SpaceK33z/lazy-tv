@@ -7,8 +7,10 @@ import Gamepad from '../patch/gamepad';
 import GameList from '../component/GameList';
 import GameItem from '../component/GameItem';
 import NoGamesWarning from '../component/NoGamesWarning';
-import { getCurrentWindow } from '../electron';
+import { remote } from 'electron';
 import navigationSound from '../asset/navigationSound.mp3';
+
+const getCurrentWindow = remote.getCurrentWindow;
 
 const GAME_ITEM_WIDTH = 316;
 const SCROLL_ANIMATION_MS = 300;

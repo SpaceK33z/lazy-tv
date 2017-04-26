@@ -1,9 +1,12 @@
-import { childProcess, process, shell, app, path, IS_PROD } from './electron';
+import { IS_PROD } from './electron';
+import { shell, remote } from 'electron';
+import { exec, spawn } from 'child_process';
+import path from 'path';
 import csvParse from 'csv-parse/lib/sync';
 
 // To run an executable that is in our public/ folder, we need to exclude it from the ASAR archive in package.json first,
 // and then adjust the path to the public folder to get it to run.
-let publicDir = path.join(`${app.getAppPath()}.unpacked`, 'public/');
+let publicDir = path.join(`${remote.app.getAppPath()}.unpacked`, 'public/');
 if (!IS_PROD) {
     publicDir = path.join('public');
 }
@@ -37,7 +40,7 @@ export default class TaskManager {
         }
         this.checkRunning = true;
         return new Promise((resolve) => {
-            childProcess.exec(`tasklist /fo:csv`, (err, stdout, stderr) => {
+            exec(`tasklist /fo:csv`, (err, stdout, stderr) => {
                 if (err) console.error(err);
                 const output = csvParse(stdout, { columns: true });
                 const tasks = output.map(task => {
@@ -74,12 +77,12 @@ export default class TaskManager {
             if (game.pid) {
                 const runScript = `"${path.join(publicDir, 'activate-window-by-pid.exe')}" ${game.pid}`;
                 console.log('Game already started, trying to focus it...', game.pid);
-                childProcess.exec(runScript, (err, stdout, stderr) => {
+                exec(runScript, (err, stdout, stderr) => {
                     if (err) console.error(err);
                 });
             } else {
                 console.log('Game seems not active, starting...');
-                childProcess.spawn('cmd', ['/c', 'start', '""', game.program]);
+                spawn('cmd', ['/c', 'start', '""', game.program]);
             }
         });
     }
@@ -89,6 +92,6 @@ export default class TaskManager {
             // TODO
             return;
         }
-        childProcess.exec(`taskkill /pid ${game.pid}`);
+        exec(`taskkill /pid ${game.pid}`);
     }
 }

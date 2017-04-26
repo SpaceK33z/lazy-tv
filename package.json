@@ -13,7 +13,7 @@
     "eslint": "^3.19.0",
     "eslint-config-codeyellow": "^4.0.0",
     "npm-run-all": "^4.0.2",
-    "react-cy-scripts": "0.10.2",
+    "react-cy-scripts": "0.10.3",
     "wait-on": "^2.0.2"
   },
   "dependencies": {
@@ -52,11 +52,11 @@
   "scripts": {
     "start": "run-p browser-start electron-start-wait",
     "build": "yarn run browser-build && build",
-    "browser-build": "rimraf browser-build && react-cy-scripts build && mv build browser-build",
+    "browser-build": "rimraf browser-build && cross-env ELECTRON=true react-cy-scripts build && mv build browser-build",
     "test": "react-cy-scripts test --env=jsdom",
     "electron-start": "cross-env ELECTRON_START_URL=http://localhost:3000 electron .",
     "electron": "electron .",
-    "browser-start": "cross-env BROWSER=none react-cy-scripts start",
+    "browser-start": "cross-env BROWSER=none ELECTRON=true react-cy-scripts start",
     "electron-start-wait": "wait-on http://localhost:3000/ && yarn electron-start"
   }
 }
