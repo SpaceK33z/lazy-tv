@@ -4,7 +4,6 @@ import { observer } from 'mobx-react';
 import Button from '../component/Button';
 import FlexColumn from '../component/FlexColumn';
 import ContainerMedium from '../component/ContainerMedium';
-import { shutdown, sleep, restart } from '../patch/exit';
 
 @observer
 export default class ExitSystem extends Component {
@@ -13,15 +12,15 @@ export default class ExitSystem extends Component {
     };
 
     handleShutdown = () => {
-        shutdown();
+        this.props.store.currentView = { screen: 'exitSystemConfirm', type: 'shutdown' };
     };
 
     handleRestart = () => {
-        restart();
+        this.props.store.currentView = { screen: 'exitSystemConfirm', type: 'restart' };
     };
 
     handleSleep = () => {
-        sleep();
+        this.props.store.currentView = { screen: 'exitSystemConfirm', type: 'sleep' };
     };
 
     goBack = () => {

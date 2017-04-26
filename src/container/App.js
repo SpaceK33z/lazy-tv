@@ -8,6 +8,7 @@ import Home from '../screen/Home';
 import AddGame from '../screen/AddGame';
 import EditGames from '../screen/EditGames';
 import ExitSystem from '../screen/ExitSystem';
+import ExitSystemConfirm from '../screen/ExitSystemConfirm';
 
 @observer
 export default class App extends Component {
@@ -31,6 +32,9 @@ export default class App extends Component {
                 break;
             case 'exitSystem':
                 content = <ExitSystem store={store} />;
+                break;
+            case 'exitSystemConfirm':
+                content = <ExitSystemConfirm store={store} />;
                 break;
             default:
                 throw new Error(`Unknown view: ${view.screen}`);
