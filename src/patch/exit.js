@@ -4,7 +4,8 @@ import { exec } from 'child_process';
 
 // *RESOURCES*
 // For Windows:
-// https://superuser.com/questions/463646/is-there-a-command-line-tool-to-put-windows-8-to-sleep/463652#463652
+// https://superuser.com/questions/463646/is-there-a-command-line-tool-to-put-windows-8-to-sleep/463652
+// https://superuser.com/questions/42124/how-can-i-put-the-computer-to-sleep-from-command-prompt-run-menu/395497
 // For macOS:
 // https://apple.stackexchange.com/questions/103571/using-the-terminal-command-to-shutdown-restart-and-sleep-my-mac
 // For Linux:

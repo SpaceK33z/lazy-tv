@@ -19,6 +19,7 @@
   "dependencies": {
     "axios": "^0.16.1",
     "csv-parse": "^1.2.0",
+    "fkill": "^4.1.0",
     "lodash": "^4.17.4",
     "mobx": "^3.1.9",
     "mobx-react": "^4.1.8",

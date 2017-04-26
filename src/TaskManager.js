@@ -3,6 +3,7 @@ import { shell, remote } from 'electron';
 import { exec, spawn } from 'child_process';
 import path from 'path';
 import csvParse from 'csv-parse/lib/sync';
+import fkill from 'fkill';
 
 // To run an executable that is in our public/ folder, we need to exclude it from the ASAR archive in package.json first,
 // and then adjust the path to the public folder to get it to run.
@@ -88,10 +89,8 @@ export default class TaskManager {
     }
 
     stop(game) {
-        if (process.platform !== 'win32') {
-            // TODO
-            return;
+        if (game.pid) {
+            fkill(game.pid);
         }
-        exec(`taskkill /pid ${game.pid}`);
     }
 }
