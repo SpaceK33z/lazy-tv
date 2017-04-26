@@ -18,7 +18,7 @@ export default class ViewStore {
     @observable selectedGame = null;
     @observable gamepads = [];
     @observable notifications = [];
-    @observable currentView = 'home';
+    @observable currentView = { screen: 'home' };
     @observable taskManager = new TaskManager();
     gpInstance = null;
     config = null;

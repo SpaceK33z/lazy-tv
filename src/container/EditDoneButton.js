@@ -12,7 +12,7 @@ export default class EditDoneButton extends Component {
 
     handleClick = () => {
         const { store } = this.props;
-        store.currentView = 'home';
+        store.currentView = { screen: 'home' };
     };
 
     render() {

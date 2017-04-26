@@ -78,7 +78,7 @@ export default class AddGame extends Component {
             return this.props.store.addGame(this.game, nativeImage);
         })
         .then(() => {
-            this.props.store.currentView = 'editGames';
+            this.props.store.currentView = { screen: 'editGames' };
         })
         .catch(() => {
             this.submitting = false;
@@ -86,7 +86,7 @@ export default class AddGame extends Component {
     };
 
     handleCancel = () => {
-        this.props.store.currentView = 'editGames';
+        this.props.store.currentView = { screen: 'editGames' };
     };
 
     @action handleImageChange = image => {

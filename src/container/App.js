@@ -19,7 +19,7 @@ export default class App extends Component {
         const { store } = this.props;
         const view = store.currentView;
         let content;
-        switch (view) {
+        switch (view.screen) {
             case 'home':
                 content = <Home store={store} />;
                 break;
@@ -33,7 +33,7 @@ export default class App extends Component {
                 content = <ExitSystem store={store} />;
                 break;
             default:
-                throw new Error(`Unknown view: ${view}`);
+                throw new Error(`Unknown view: ${view.screen}`);
         }
 
         return (

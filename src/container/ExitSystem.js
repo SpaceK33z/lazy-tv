@@ -25,7 +25,7 @@ export default class ExitSystem extends Component {
     };
 
     goBack = () => {
-        this.props.store.currentView = 'home';
+        this.props.store.currentView = { screen: 'home' };
     };
 
     render() {

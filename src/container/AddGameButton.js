@@ -12,7 +12,7 @@ export default class AddGameButton extends Component {
 
     handleClick = () => {
         const { store } = this.props;
-        store.currentView = 'addGame';
+        store.currentView = { screen: 'addGame' };
     };
 
     render() {

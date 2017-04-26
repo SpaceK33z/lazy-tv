@@ -12,7 +12,7 @@ export default class ExitSystemButton extends Component {
 
     handleClick = () => {
         const { store } = this.props;
-        store.currentView = 'exitSystem';
+        store.currentView = { screen: 'exitSystem' };
     };
 
     render() {
