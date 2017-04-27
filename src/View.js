@@ -1,11 +1,11 @@
 import { observable, computed } from 'mobx';
 import Game from './Game';
-import Gamepad from './patch/gamepad';
 import Config from './Config';
 import { remote, shell } from 'electron';
 import fs from 'fs';
 import path from 'path';
 import TaskManager from './TaskManager';
+import GamepadManager from './GamepadManager';
 import uuid from 'uuid/v4';
 
 const DEFAULT_CONFIG = {
@@ -20,7 +20,7 @@ export default class ViewStore {
     @observable notifications = [];
     @observable currentView = { screen: 'home' };
     @observable taskManager = new TaskManager();
-    gpInstance = null;
+    @observable gamepadManager = new GamepadManager();
     config = null;
 
     constructor() {
@@ -30,13 +30,12 @@ export default class ViewStore {
         if (this.games.length) {
             this.selectedGame = this.games[0];
         }
-        this.gpInstance = new Gamepad();
 
-        this.gpInstance.on('connect', e => {
+        this.gamepadManager.on('connect', e => {
             this.gamepads.push(e);
         });
 
-        this.gpInstance.on('disconnect', e => {
+        this.gamepadManager.on('disconnect', e => {
             const gamepad = this.gamepads.find(gp => gp.index === e.index);
             if (gamepad) {
                 this.gamepads.remove(gamepad);

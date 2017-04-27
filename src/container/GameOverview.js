@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import { throttle, debounce } from 'lodash';
 import scrollToWithAnimation from 'scrollto-with-animation';
-import Gamepad from '../patch/gamepad';
 import GameList from '../component/GameList';
 import GameItem from '../component/GameItem';
 import NoGamesWarning from '../component/NoGamesWarning';
@@ -18,16 +17,6 @@ const AXIS_DEBOUNCE_MS = 100;
 const AXIS_DEBOUNCE_WAIT_MS = 200;
 const AXIS_MOVE_TRESHOLD = 0.75;
 const GAME_ACTION_DEBOUNCE_MS = 1000;
-
-// http://keycode.info/
-const GAMEPAD_KEYBOARD_MAPPING = {
-    button_1: [32, 13],
-    button_2: [8, 46],
-    d_pad_up: [38, 87],
-    d_pad_down: [40, 83],
-    d_pad_left: [37, 65],
-    d_pad_right: [39, 68],
-};
 
 // TODO: This component does way too much at the moment...
 
@@ -105,63 +94,57 @@ export default class GameOverview extends Component {
         this.props.store.stopGame();
     }
 
-    resumeGpEvents = () => {
-        this.gpInstance.resume();
-    };
-
-    pauseGpEvents = () => {
-        this.gpInstance.pause();
-    };
-
     playSoundEffect() {
         const audio = new Audio(navigationSound);
         audio.volume = 0.15;
         audio.play();
     }
 
-    componentDidMount() {
-        this.gpInstance = new Gamepad();
-        this.gpInstance.setCustomMapping('keyboard', GAMEPAD_KEYBOARD_MAPPING);
-        getCurrentWindow().on('focus', this.resumeGpEvents);
-        getCurrentWindow().on('blur', this.pauseGpEvents);
+    gpLeft = () => {
+        this.selectGameFromAxis('left');
+    };
 
-        this.gpInstance.on('hold', 'stick_axis_left', e => {
-            const [x] = e.value;
-            if (x > AXIS_MOVE_TRESHOLD) {
-                this.selectGameFromAxis('right');
-            }
-            if (x < -AXIS_MOVE_TRESHOLD) {
-                this.selectGameFromAxis('left');
-            }
-        });
+    gpRight = () => {
+        this.selectGameFromAxis('right');
+    };
 
-        // Note that this also reacts on keyboard arrow left!
-        this.gpInstance.on('hold', 'd_pad_left', () => {
-            this.selectGameFromAxis('left');
-        });
+    gpButton1 = () => {
+        this.startGame();
+    };
 
-        // And this on keyboard arrow right as well!
-        this.gpInstance.on('hold', 'd_pad_right', () => {
+    gpButton2 = () => {
+        this.stopGame();
+    };
+
+    gpAxis = e => {
+        const [x] = e.value;
+        if (x > AXIS_MOVE_TRESHOLD) {
             this.selectGameFromAxis('right');
-        });
+        }
+        if (x < -AXIS_MOVE_TRESHOLD) {
+            this.selectGameFromAxis('left');
+        }
+    };
 
+    componentDidMount() {
+        const { gamepadManager } = this.props.store;
+        gamepadManager.on('hold', 'stick_axis_left', this.gpAxis);
+        // Note that this also reacts on keyboard arrow left!
+        gamepadManager.on('hold', 'd_pad_left', this.gpLeft);
+        // And this on keyboard arrow right as well!
+        gamepadManager.on('hold', 'd_pad_right', this.gpRight);
         // And this also reacts on SPACE
-        this.gpInstance.on('press', 'button_1', () => {
-            this.startGame();
-        });
-
-        this.gpInstance.on('press', 'button_2', () => {
-            this.stopGame();
-        });
+        gamepadManager.on('press', 'button_1', this.gpButton1);
+        gamepadManager.on('press', 'button_2', this.gpButton2);
     }
 
     componentWillUnmount() {
-        if (this.gpInstance) {
-            this.gpInstance.destroy();
-            this.gpInstance = null;
-        }
-        getCurrentWindow().removeListener('focus', this.resumeGpEvents);
-        getCurrentWindow().removeListener('blur', this.pauseGpEvents);
+        const { gamepadManager } = this.props.store;
+        gamepadManager.off(this.gpAxis);
+        gamepadManager.off(this.gpLeft);
+        gamepadManager.off(this.gpRight);
+        gamepadManager.off(this.gpButton1);
+        gamepadManager.off(this.gpButton2);
     }
 
     renderGame = game => {

@@ -397,6 +397,17 @@
 
     };
 
+    // HACKed in by Kees
+    Gamepad.prototype.off = function (callback) {
+        const index = this._listeners.findIndex((listener) => {
+            return listener.callback === callback;
+        });
+        if (index >= 0) {
+            this._listeners.splice(index, 1);
+        }
+    }
+    // end HACK
+
     Gamepad.prototype.setCustomMapping = function (device, config) {
 
         if (this._keyMapping[device] !== undefined) {
