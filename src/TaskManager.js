@@ -2,8 +2,8 @@ import { IS_PROD } from './electron';
 import { shell, remote } from 'electron';
 import { exec, spawn } from 'child_process';
 import path from 'path';
-import csvParse from 'csv-parse/lib/sync';
 import fkill from 'fkill';
+import tasklist from 'tasklist-stream';
 
 // To run an executable that is in our public/ folder, we need to exclude it from the ASAR archive in package.json first,
 // and then adjust the path to the public folder to get it to run.
@@ -12,7 +12,7 @@ if (!IS_PROD) {
     publicDir = path.join('public');
 }
 
-const CHECK_RUN_INTERVAL = 6000;
+const CHECK_RUN_INTERVAL = 5000;
 
 export default class TaskManager {
     games = [];
@@ -40,16 +40,16 @@ export default class TaskManager {
             return Promise.resolve();
         }
         this.checkRunning = true;
-        return new Promise((resolve) => {
-            exec(`tasklist /fo:csv`, (err, stdout, stderr) => {
-                if (err) console.error(err);
-                const output = csvParse(stdout, { columns: true });
-                const tasks = output.map(task => {
-                    return {
-                        pid: task.PID,
-                        name: task['Image Name'],
-                    };
+        return new Promise(resolve => {
+            const t = tasklist();
+            const tasks = [];
+            t.on('data', task => {
+                tasks.push({
+                    pid: task.pid,
+                    name: task.imageName,
                 });
+            });
+            t.on('finish', () => {
                 this._updateGames(tasks);
                 this.checkRunning = false;
                 resolve();
@@ -73,8 +73,7 @@ export default class TaskManager {
         }
         // Before starting, we'll check again if the game is not running.
         // Perhaps one day, we can listen to program start/stop events...
-        this.checkTasks()
-        .then(() => {
+        this.checkTasks().then(() => {
             if (game.pid) {
                 const runScript = `"${path.join(publicDir, 'activate-window-by-pid.exe')}" ${game.pid}`;
                 console.log('Game already started, trying to focus it...', game.pid);
