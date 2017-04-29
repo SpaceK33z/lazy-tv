@@ -15,7 +15,6 @@ const GAMEPAD_KEYBOARD_MAPPING = {
 
 export default class GamepadManager {
     _gp = null;
-    _events = null;
 
     constructor() {
         this._gp = new Gamepad();
