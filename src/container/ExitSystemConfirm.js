@@ -7,8 +7,9 @@ import { shutdown, sleep, restart } from '../patch/exit';
 import Button from '../component/Button';
 import Text from '../component/Text';
 import ContainerMedium from '../component/ContainerMedium';
+import KeyNavigation from '../component/KeyNavigation';
 
-const TIME_BEFORE_ACTION = 7000;
+const TIME_BEFORE_ACTION = 5000;
 
 @observer
 export default class ExitSystemConfirm extends Component {
@@ -57,6 +58,10 @@ export default class ExitSystemConfirm extends Component {
         this.props.store.currentView = { screen: 'home' };
     };
 
+    goBack = () => {
+        this.props.store.currentView = { screen: 'exitSystem' };
+    };
+
     render() {
         const { store: { currentView } } = this.props;
         let text;
@@ -71,10 +76,12 @@ export default class ExitSystemConfirm extends Component {
         }
         return (
             <ContainerMedium>
-                <FlexColumn>
-                    <Text>{text} in {this.timeLeft / 1000} seconds</Text>
-                    <Button onClick={this.goToHome}>Cancel</Button>
-                </FlexColumn>
+                <KeyNavigation store={this.props.store} onEnter={this.goBack} onBack={this.goBack}>
+                    <FlexColumn>
+                        <Text>{text} in {this.timeLeft / 1000} seconds</Text>
+                        <Button onClick={this.goBack} selected>Cancel</Button>
+                    </FlexColumn>
+                </KeyNavigation>
             </ContainerMedium>
         );
     }
