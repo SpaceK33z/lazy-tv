@@ -88,6 +88,10 @@ export default class GameOverview extends Component {
         );
     };
 
+    launchExitScreen = () => {
+        this.props.store.currentView = { screen: 'exitSystem' };
+    };
+
     render() {
         const { store } = this.props;
         if (store.games.length) {
@@ -100,6 +104,7 @@ export default class GameOverview extends Component {
                     onActiveChange={this.selectGame}
                     onEnter={this.startGame}
                     onBack={this.stopGame}
+                    onStart={this.launchExitScreen}
                 >
                     <GameList innerRef={this.setListRef}>
                         {store.games.map(this.renderGame)}

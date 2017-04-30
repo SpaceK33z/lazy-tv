@@ -11,6 +11,7 @@ const GAMEPAD_KEYBOARD_MAPPING = {
     d_pad_down: [40, 83],
     d_pad_left: [37, 65],
     d_pad_right: [39, 68],
+    start: 27,
 };
 
 export default class GamepadManager {
