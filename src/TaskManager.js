@@ -74,7 +74,7 @@ export default class TaskManager {
         // Before starting, we'll check again if the game is not running.
         // Perhaps one day, we can listen to program start/stop events...
         this.checkTasks().then(() => {
-            if (game.pid) {
+            if (!game.disableSmartStart && game.pid) {
                 const runScript = `"${path.join(publicDir, 'activate-window-by-pid.exe')}" ${game.pid}`;
                 console.log('Game already started, trying to focus it...', game.pid);
                 exec(runScript, (err, stdout, stderr) => {

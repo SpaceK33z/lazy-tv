@@ -4,6 +4,7 @@ import { observable, action } from 'mobx';
 import { observer } from 'mobx-react';
 import FormField from '../component/FormField';
 import InputExecutable from '../component/InputExecutable';
+import InputBool from '../component/InputBool';
 import Button from '../component/Button';
 import GameAddPoster from '../component/GameAddPoster';
 import Form from '../component/Form';
@@ -51,6 +52,7 @@ export default class AddGame extends Component {
 
     @observable game = {
         program: '',
+        disableSmartStart: false,
     };
 
     @observable image = null;
@@ -114,6 +116,13 @@ export default class AddGame extends Component {
                                 name="program"
                                 value={this.game.program}
                                 placeholder="Click to select a game"
+                                onChange={this.handleInput}
+                            />
+                        </FormField>
+                        <FormField label="Smart start">
+                            <InputBool
+                                name="disableSmartStart"
+                                value={this.game.disableSmartStart}
                                 onChange={this.handleInput}
                             />
                         </FormField>

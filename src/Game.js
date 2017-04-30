@@ -5,6 +5,7 @@ import { observable, computed } from 'mobx';
 export default class Game {
     @observable id = '';
     @observable program = '';
+    @observable disableSmartStart = false;
     @observable pid = '';
 
     @computed get isRunning() {
