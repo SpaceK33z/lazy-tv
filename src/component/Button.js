@@ -13,6 +13,11 @@ const Button = styled.button`
     border-radius: 2px;
     font-size: 1.5em;
     border: 3px solid ${COLOR_WHITE};
+    transition: 280ms ease;
+
+    ${props => props.selected && `
+        box-shadow: 0px 0px 14px 7px rgba(36, 242, 242, 1);
+    `}
 
     ${props => props.type === 'submit' ? `
         color: ${COLOR_PRIMARY};
