@@ -6,11 +6,13 @@ import App from './container/App';
 import ViewStore from './View';
 import { remote } from 'electron';
 
-const viewStore = new ViewStore();
-
 // In the app we subscribe to some events of the Electron window.
 // When the page is refreshed (i.e. during debugging), those events are not automatically removed.
+// Important: must happen BEFORE viewStore init!
 remote.getCurrentWindow().removeAllListeners();
+
+const viewStore = new ViewStore();
+
 
 window.addEventListener('keydown', (e) => {
     // Quit app on ctrl+Q

@@ -5,6 +5,8 @@ import path from 'path';
 import fkill from 'fkill';
 import tasklist from 'tasklist-stream';
 
+const getCurrentWindow = remote.getCurrentWindow;
+
 // To run an executable that is in our public/ folder, we need to exclude it from the ASAR archive in package.json first,
 // and then adjust the path to the public folder to get it to run.
 let publicDir = path.join(`${remote.app.getAppPath()}.unpacked`, 'public/');
@@ -21,18 +23,35 @@ export default class TaskManager {
     checkRunning = false;
 
     constructor() {
+        this.setInterval();
+        // Disable task interval when in background to save cpu/memory.
+        getCurrentWindow().on('focus', this.resume);
+        getCurrentWindow().on('blur', this.pause);
+    }
+
+    resume = () => {
+        this.checkTasks();
+        this.setInterval();
+    };
+
+    pause = () => {
+        this.removeInterval();
+    };
+
+    setInterval() {
+        this.removeInterval();
         this.interval = setInterval(() => {
             this.checkTasks();
         }, CHECK_RUN_INTERVAL);
     }
 
+    removeInterval() {
+        clearInterval(this.interval);
+    }
+
     setGames(games) {
         this.games = games;
         this.checkTasks();
-    }
-
-    destroy() {
-        clearInterval(this.interval);
     }
 
     checkTasks() {
