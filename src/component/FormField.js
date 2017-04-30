@@ -24,7 +24,7 @@ const StyledLabel = styled.label`
 @observer
 export default class FormField extends Component {
     static propTypes = {
-        label: PropTypes.string.isRequired,
+        label: PropTypes.string,
         children: PropTypes.node.isRequired,
         className: PropTypes.string,
     };
@@ -32,7 +32,7 @@ export default class FormField extends Component {
     render() {
         return (
             <StyledField className={this.props.className}>
-                <StyledLabel>{this.props.label}</StyledLabel>
+                {this.props.label ? <StyledLabel>{this.props.label}</StyledLabel> : null}
                 <StyledWrapper>
                     {this.props.children}
                 </StyledWrapper>

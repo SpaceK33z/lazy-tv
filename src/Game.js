@@ -12,15 +12,23 @@ export default class Game {
         return !!this.pid;
     }
 
-    constructor(data) {
-        this.id = data.id;
-        this.program = data.program;
+    constructor(data = {}) {
+        if (data.id) {
+            this.id = data.id;
+        }
+        if (data.program) {
+            this.program = data.program;
+        }
+        if (data.disableSmartStart) {
+            this.disableSmartStart = data.disableSmartStart;
+        }
     }
 
     toStorage() {
         return {
             id: this.id,
             program: this.program,
+            disableSmartStart: this.disableSmartStart,
         };
     }
 }

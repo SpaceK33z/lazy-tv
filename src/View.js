@@ -81,12 +81,12 @@ export default class ViewStore {
 
     addGame(game, poster) {
         return new Promise((resolve, reject) => {
-            const newGame = Object.assign({}, game, { id: uuid() });
-            this.games.push(newGame);
+            game.id = uuid();
+            this.games.push(game);
             this.saveGamesToConfig();
             if (poster) {
                 const folderPath = path.join(userDataPath, 'posters');
-                const filePath = path.join(folderPath, `${newGame.id}.png`);
+                const filePath = path.join(folderPath, `${game.id}.png`);
                 fs.mkdir(folderPath, err => {
                     if (err && err.code !== 'EEXIST') throw err;
                     fs.writeFile(filePath, poster.toPng(), err => {

@@ -2,9 +2,10 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { observable, action } from 'mobx';
 import { observer } from 'mobx-react';
+import Game from '../Game';
 import FormField from '../component/FormField';
 import InputExecutable from '../component/InputExecutable';
-import InputBool from '../component/InputBool';
+import Checkbox from '../component/Checkbox';
 import Button from '../component/Button';
 import GameAddPoster from '../component/GameAddPoster';
 import Form from '../component/Form';
@@ -50,10 +51,7 @@ export default class AddGame extends Component {
         store: PropTypes.object.isRequired,
     };
 
-    @observable game = {
-        program: '',
-        disableSmartStart: false,
-    };
+    @observable game = new Game();
 
     @observable image = null;
     @observable crop = IMAGE_CROP;
@@ -82,7 +80,8 @@ export default class AddGame extends Component {
         .then(() => {
             this.props.store.currentView = { screen: 'editGames' };
         })
-        .catch(() => {
+        .catch((err) => {
+            if (err) console.error(err);
             this.submitting = false;
         });
     };
@@ -119,9 +118,10 @@ export default class AddGame extends Component {
                                 onChange={this.handleInput}
                             />
                         </FormField>
-                        <FormField label="Smart start">
-                            <InputBool
+                        <FormField>
+                            <Checkbox
                                 name="disableSmartStart"
+                                label="Start new window every time (not recommended)"
                                 value={this.game.disableSmartStart}
                                 onChange={this.handleInput}
                             />
