@@ -47,14 +47,6 @@ export default class ViewStore {
         return this.games.indexOf(this.selectedGame);
     }
 
-    changeGame(direction) {
-        const index = this.selectedGameIndex;
-        const newIndex = direction === 'left' ? index - 1 : index + 1;
-        if (newIndex < this.games.length && newIndex >= 0) {
-            this.selectedGame = this.games[newIndex];
-        }
-    }
-
     openGame() {
         const { program } = this.selectedGame;
 

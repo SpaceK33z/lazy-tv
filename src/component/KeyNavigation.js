@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { observer } from 'mobx-react';
 import { debounce } from 'lodash';
 import navigationSound from '../asset/navigationSound.mp3';
@@ -16,6 +16,7 @@ export default class KeyNavigation extends Component {
         onActiveChange: PropTypes.func.isRequired,
         onEnter: PropTypes.func.isRequired,
         onBack: PropTypes.func.isRequired,
+        onStart: PropTypes.func,
         store: PropTypes.object.isRequired,
     };
 
@@ -67,6 +68,10 @@ export default class KeyNavigation extends Component {
         this.props.onBack();
     };
 
+    gpStart = () => {
+        this.props.onStart();
+    };
+
     gpAxis = e => {
         const [x] = e.value;
         if (x > AXIS_MOVE_TRESHOLD) {
@@ -89,6 +94,9 @@ export default class KeyNavigation extends Component {
         // And this also reacts on SPACE
         gamepadManager.on('press', 'button_1', this.gpButton1);
         gamepadManager.on('press', 'button_2', this.gpButton2);
+        if (this.props.onStart) {
+            gamepadManager.on('press', 'start', this.gpStart);
+        }
     }
 
     componentWillUnmount() {
@@ -98,6 +106,7 @@ export default class KeyNavigation extends Component {
         gamepadManager.off(this.gpRight);
         gamepadManager.off(this.gpButton1);
         gamepadManager.off(this.gpButton2);
+        gamepadManager.off(this.gpStart);
     }
 
     render() {

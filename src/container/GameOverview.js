@@ -6,16 +6,11 @@ import scrollToWithAnimation from 'scrollto-with-animation';
 import GameList from '../component/GameList';
 import GameItem from '../component/GameItem';
 import NoGamesWarning from '../component/NoGamesWarning';
-import navigationSound from '../asset/navigationSound.mp3';
+import KeyNavigation from '../component/KeyNavigation';
 
 const GAME_ITEM_WIDTH = 316;
 const SCROLL_ANIMATION_MS = 300;
-const AXIS_DEBOUNCE_MS = 100;
-const AXIS_DEBOUNCE_WAIT_MS = 200;
-const AXIS_MOVE_TRESHOLD = 0.75;
 const GAME_ACTION_DEBOUNCE_MS = 1000;
-
-// TODO: This component does way too much at the moment...
 
 @observer
 export default class GameOverview extends Component {
@@ -24,14 +19,12 @@ export default class GameOverview extends Component {
     };
 
     listRef = null;
-    gpInstance = null;
 
     selectGame = throttle(
-        direction => {
+        gameId => {
             const { store } = this.props;
-            store.changeGame(direction);
+            store.selectedGame = store.games.find(game => game.id === gameId);
             this.scrollToGame();
-            this.playSoundEffect();
         },
         SCROLL_ANIMATION_MS,
         { leading: true }
@@ -63,14 +56,6 @@ export default class GameOverview extends Component {
         this.listRef = ref;
     };
 
-    selectGameFromAxis = debounce(
-        direction => {
-            this.selectGame(direction);
-        },
-        AXIS_DEBOUNCE_MS,
-        { maxWait: AXIS_DEBOUNCE_WAIT_MS, immediate: true }
-    );
-
     startGame = debounce(this._startGame, GAME_ACTION_DEBOUNCE_MS, {
         leading: true,
         trailing: false,
@@ -91,59 +76,6 @@ export default class GameOverview extends Component {
         this.props.store.stopGame();
     }
 
-    playSoundEffect() {
-        const audio = new Audio(navigationSound);
-        audio.volume = 0.15;
-        audio.play();
-    }
-
-    gpLeft = () => {
-        this.selectGameFromAxis('left');
-    };
-
-    gpRight = () => {
-        this.selectGameFromAxis('right');
-    };
-
-    gpButton1 = () => {
-        this.startGame();
-    };
-
-    gpButton2 = () => {
-        this.stopGame();
-    };
-
-    gpAxis = e => {
-        const [x] = e.value;
-        if (x > AXIS_MOVE_TRESHOLD) {
-            this.selectGameFromAxis('right');
-        }
-        if (x < -AXIS_MOVE_TRESHOLD) {
-            this.selectGameFromAxis('left');
-        }
-    };
-
-    componentDidMount() {
-        const { gamepadManager } = this.props.store;
-        gamepadManager.on('hold', 'stick_axis_left', this.gpAxis);
-        // Note that this also reacts on keyboard arrow left!
-        gamepadManager.on('hold', 'd_pad_left', this.gpLeft);
-        // And this on keyboard arrow right as well!
-        gamepadManager.on('hold', 'd_pad_right', this.gpRight);
-        // And this also reacts on SPACE
-        gamepadManager.on('press', 'button_1', this.gpButton1);
-        gamepadManager.on('press', 'button_2', this.gpButton2);
-    }
-
-    componentWillUnmount() {
-        const { gamepadManager } = this.props.store;
-        gamepadManager.off(this.gpAxis);
-        gamepadManager.off(this.gpLeft);
-        gamepadManager.off(this.gpRight);
-        gamepadManager.off(this.gpButton1);
-        gamepadManager.off(this.gpButton2);
-    }
-
     renderGame = game => {
         const selectedGame = this.props.store.selectedGame;
         return (
@@ -159,10 +91,20 @@ export default class GameOverview extends Component {
     render() {
         const { store } = this.props;
         if (store.games.length) {
+            const items = store.games.map(game => game.id);
             return (
-                <GameList innerRef={this.setListRef}>
-                    {store.games.map(this.renderGame)}
-                </GameList>
+                <KeyNavigation
+                    store={store}
+                    items={items}
+                    activeItem={store.selectedGame.id}
+                    onActiveChange={this.selectGame}
+                    onEnter={this.startGame}
+                    onBack={this.stopGame}
+                >
+                    <GameList innerRef={this.setListRef}>
+                        {store.games.map(this.renderGame)}
+                    </GameList>
+                </KeyNavigation>
             );
         } else {
             return <NoGamesWarning />;
