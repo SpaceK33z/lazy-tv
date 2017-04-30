@@ -8,6 +8,10 @@ import { remote } from 'electron';
 
 const viewStore = new ViewStore();
 
+// In the app we subscribe to some events of the Electron window.
+// When the page is refreshed (i.e. during debugging), those events are not automatically removed.
+remote.getCurrentWindow().removeAllListeners();
+
 window.addEventListener('keydown', (e) => {
     // Quit app on ctrl+Q
     if (e.ctrlKey && e.keyCode === 81) {
